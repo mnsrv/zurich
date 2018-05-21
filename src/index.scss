@@ -1,1 +1,25 @@
 @import 'bulma/bulma';
+
+.pointer {
+  cursor: pointer;
+}
+.mr {
+  margin-right: 0.5em;
+}
+.table td {
+  padding: 0;
+  min-width: 200px;
+}
+.table th {
+  padding: 0.375em 0.625em;
+}
+.table .td_padding {
+  padding: 0.375em 0.625em;
+}
+.table input {
+  border-radius: 0;
+  min-width: 200px;
+}
+.td_edit {
+  text-align: right;
+}
