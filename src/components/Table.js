@@ -1,0 +1,50 @@
+import React, { Component } from 'react'
+import { observer } from 'mobx-react'
+
+import Row from './Row'
+
+@observer(['transactions'])
+export default class Table extends Component {
+  state = {
+    editedId: ''
+  }
+
+  render() {
+    return (
+      <section className="section">
+        <div className="container">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Дата</th>
+                <th>Заметка</th>
+                <th>Сумма</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.props.transactions.all.map(({ id, ...props }) => (
+                <Row key={id} {...props} isEdited={id === this.state.editedId} onClick={(e) => this.editCell(id, e)} cancelEdit={this.cancelEdit} saveCell={this.saveCell} />
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    )
+  }
+
+  editCell = (id) => {
+    this.setState({ editedId: id })
+  }
+
+  cancelEdit = () => {
+    this.setState({ editedId: '' })
+  }
+
+  saveCell = (newCell) => {
+    console.log(newCell)
+    // const cellIndex = this.state.transactions.findIndex(item => item.id === this.state.editedId)
+    // const newTransactions = [...this.state.transactions]
+    // newTransactions[cellIndex] = { ...this.state.transactions[cellIndex], ...newCell }
+    // this.setState({ editedId: '', transactions: newTransactions })
+  }
+}
