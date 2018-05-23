@@ -1,12 +1,17 @@
 import React, { Component } from 'react'
-import { observer } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 
 import Row from './Row'
 
-@observer(['transactions'])
+@inject('transactions')
+@observer
 export default class Table extends Component {
   state = {
     editedId: ''
+  }
+
+  componentWillMount() {
+    this.props.transactions.fetchAll()
   }
 
   render() {

@@ -1,4 +1,4 @@
-import transactions from './Transactions'
+import transactions from './collections/Transactions'
 
 const stores = {
   transactions
