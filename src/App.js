@@ -1,18 +1,23 @@
 import React, { Component } from 'react'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
-import Table from './components/Table'
+import Header from './components/Header'
+import Table from './components/Transactions/Table'
+import New from './components/Sessions/New'
 
 class App extends Component {
   render() {
-    return [
-      <section key="header" className="section">
-        <div className="container">
-          <h1 className="title">Hello World</h1>
-          <p className="subtitle">My first website with <strong>Bulma</strong>!</p>
+    return (
+      <Router>
+        <div>
+          <Header />
+          <Route exact path="/" component={Table} />
+          <Route path="/users">
+            <Route path="/users/sign_in" component={New} />
+          </Route>
         </div>
-      </section>,
-      <Table key="table" />
-    ]
+      </Router>
+    )
   }
 }
 
