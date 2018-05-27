@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
+import { inject, observer } from 'mobx-react'
 
+@inject('transactions')
+@observer
 export default class Row extends Component {
   constructor(props) {
     super()
@@ -30,7 +33,8 @@ export default class Row extends Component {
         <tr key={`${id}-submit`}>
           <td colSpan={3} className="td_edit">
             <button className="button is-success mr" onClick={this.saveCell}>Сохранить</button>
-            <button className="button is-danger" onClick={cancelEdit}>Отменить</button>
+            <button className="button is-danger mr" onClick={this.deleteCell}>Удалить</button>
+            <button className="button is-light" onClick={cancelEdit}>Отменить</button>
           </td>
         </tr>
       ]
@@ -67,5 +71,9 @@ export default class Row extends Component {
     const { date, memo, amount } = this.state
 
     saveCell({ date, memo, amount })
+  }
+
+  deleteCell = () => {
+    this.props.transactions.remove(this.props.id)
   }
 }

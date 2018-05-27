@@ -28,7 +28,15 @@ export default class Table extends Component {
             </thead>
             <tbody>
               {this.props.transactions.all.map(({ id, ...props }) => (
-                <Row key={id} {...props} isEdited={id === this.state.editedId} onClick={(e) => this.editCell(id, e)} cancelEdit={this.cancelEdit} saveCell={this.saveCell} />
+                <Row
+                  key={id.toString()}
+                  id={id}
+                  {...props}
+                  isEdited={id === this.state.editedId}
+                  onClick={(e) => this.editCell(id, e)}
+                  cancelEdit={this.cancelEdit}
+                  saveCell={this.saveCell}
+                />
               ))}
             </tbody>
           </table>
