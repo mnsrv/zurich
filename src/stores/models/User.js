@@ -1,8 +1,10 @@
 import { observable, action } from 'mobx'
 
+import navigation from '../../stores/Navigation'
 import Api from '../../helpers/api'
 
 class User {
+  path = '/sessions'
   @observable isLoading = false
   @observable signedIn = false
   @observable email = null
@@ -25,22 +27,29 @@ class User {
     }
 
     if (store.email && store.authentication_token) {
-      this.signInFromStorage()
-    } else if (email, password) {
+      this.signInFromStorage(store.email)
+    } else if (email && password) {
       this.createSession(email, password)
     }
   }
 
-  @action signInFromStorage() {
-    this.email = localStorage.getItem('email')
-    this.signedIn = true
-    this.isLoading = false
+  @action async signInFromStorage(email) {
+    const response = await Api.get(this.path)
+    const status = await response.status
+
+    if (status === 200) {
+      this.email = email
+      this.signedIn = true
+      this.isLoading = false
+    } else {
+      this.signOut()
+    }
   }
 
   async createSession(email, password) {
     this.setIsLoading(true)
 
-    const response = await Api.post('/sessions', { email, password })
+    const response = await Api.post(this.path, { email, password })
     const status = await response.status
 
     if (status === 201) {
@@ -52,9 +61,21 @@ class User {
 
       this.setIsLoading(false)
       this.setSignedIn(true, user.email)
+
+      navigation.push('/')
     } else {
       console.log('ERROR')
     }
+  }
+
+  @action signOut() {
+    localStorage.removeItem('email')
+    localStorage.removeItem('token')
+    this.email = null
+    this.signedIn = false
+    this.isLoading = false
+
+    navigation.push('/users/sign_in')
   }
 }
 

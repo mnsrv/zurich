@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Link } from 'react-router-dom'
 
 import Member from './Member'
 import Guest from './Guest'
@@ -19,14 +18,7 @@ export default class Header extends Component {
     return (
       <nav className={`navbar ${color}`}>
         <div className="container">
-          <div className="navbar-menu">
-            <div className="navbar-start">
-              <Link to="/" className="navbar-item">Главная</Link>
-            </div>
-            <div className="navbar-end">
-              {this.renderGuestOrMember()}
-            </div>
-          </div>
+          {this.renderGuestOrMember()}
         </div>
       </nav>
     )

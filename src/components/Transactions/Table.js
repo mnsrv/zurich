@@ -20,7 +20,7 @@ export default class Table extends Component {
       <section className="section">
         <div className="container">
           <h1 className="title">Транзакции</h1>
-          <div class="field is-grouped">
+          <div className="field is-grouped">
             <button className="button" onClick={this.startAdding}>Добавить</button>
           </div>
           <table className="table">
