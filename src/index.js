@@ -8,7 +8,7 @@ import App from './App'
 import registerServiceWorker from './registerServiceWorker'
 
 ReactDOM.render(
-  <Provider transactions={stores.transactions}>
+  <Provider {...stores}>
     <App />
   </Provider>,
   document.getElementById('root')
