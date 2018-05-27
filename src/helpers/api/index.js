@@ -3,6 +3,16 @@ const endpoint = 'http://localhost:4000/v1'
 const headers = () => {
   const h = new Headers()
   h.append('Content-Type', 'application/json')
+
+  const session = {
+    email: localStorage.getItem('email'),
+    token: localStorage.getItem('token')
+  }
+  if (session.email && session.token) {
+    h.append('X-User-Email', session.email)
+    h.append('X-User-Token', session.token)
+  }
+
   return h
 }
 
