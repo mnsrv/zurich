@@ -54,6 +54,6 @@ export default class New extends Component {
 
     const { user } = this.props
 
-    user.createSession(this.email.value, this.password.value)
+    user.signIn(this.email.value, this.password.value)
   }
 }

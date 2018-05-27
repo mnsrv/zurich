@@ -18,6 +18,25 @@ class User {
     }
   }
 
+  signIn(email = null, password = null) {
+    const store = {
+      authentication_token: localStorage.getItem('token'),
+      email: localStorage.getItem('email')
+    }
+
+    if (store.email && store.authentication_token) {
+      this.signInFromStorage()
+    } else if (email, password) {
+      this.createSession(email, password)
+    }
+  }
+
+  @action signInFromStorage() {
+    this.email = localStorage.getItem('email')
+    this.signedIn = true
+    this.isLoading = false
+  }
+
   async createSession(email, password) {
     this.setIsLoading(true)
 

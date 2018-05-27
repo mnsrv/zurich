@@ -8,6 +8,10 @@ import Guest from './Guest'
 @inject('user')
 @observer
 export default class Header extends Component {
+  componentWillMount() {
+    this.props.user.signIn()
+  }
+
   render() {
     const { user } = this.props
     const color = user.signedIn ? 'is-dark' : 'is-light'
