@@ -7,6 +7,7 @@ import Row from './Row'
 @observer
 export default class Table extends Component {
   state = {
+    isAdding: false,
     editedId: ''
   }
 
@@ -19,6 +20,9 @@ export default class Table extends Component {
       <section className="section">
         <div className="container">
           <h1 className="title">Транзакции</h1>
+          <div class="field is-grouped">
+            <button className="button" onClick={this.startAdding}>Добавить</button>
+          </div>
           <table className="table">
             <thead>
               <tr>
@@ -28,6 +32,7 @@ export default class Table extends Component {
               </tr>
             </thead>
             <tbody>
+              {this.renderAdding()}
               {this.props.transactions.all.map(({ id, ...props }) => (
                 <Row
                   key={id.toString()}
@@ -36,7 +41,6 @@ export default class Table extends Component {
                   isEdited={id === this.state.editedId}
                   onClick={(e) => this.editCell(id, e)}
                   cancelEdit={this.cancelEdit}
-                  saveCell={this.saveCell}
                 />
               ))}
             </tbody>
@@ -44,6 +48,35 @@ export default class Table extends Component {
         </div>
       </section>
     )
+  }
+
+  renderAdding = () => {
+    if (!this.state.isAdding) {
+      return null
+    }
+    const newCell = {
+      date: '',
+      memo: '',
+      amount: 0
+    }
+    return (
+      <Row
+        key="new"
+        id="new"
+        {...newCell}
+        isEdited={true}
+        onClick={this.doNothing}
+        cancelEdit={this.cancelAdding}
+      />
+    )
+  }
+
+  startAdding = () => {
+    this.setState({ isAdding: true })
+  }
+
+  cancelAdding = () => {
+    this.setState({ isAdding: false })
   }
 
   editCell = (id) => {
@@ -54,11 +87,5 @@ export default class Table extends Component {
     this.setState({ editedId: '' })
   }
 
-  saveCell = (newCell) => {
-    console.log(newCell)
-    // const cellIndex = this.state.transactions.findIndex(item => item.id === this.state.editedId)
-    // const newTransactions = [...this.state.transactions]
-    // newTransactions[cellIndex] = { ...this.state.transactions[cellIndex], ...newCell }
-    // this.setState({ editedId: '', transactions: newTransactions })
-  }
+  doNothing = () => {}
 }
