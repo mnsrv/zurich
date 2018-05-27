@@ -18,6 +18,7 @@ export default class Table extends Component {
     return (
       <section className="section">
         <div className="container">
+          <h1 className="title">Транзакции</h1>
           <table className="table">
             <thead>
               <tr>
