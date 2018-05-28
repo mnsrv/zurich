@@ -23,6 +23,6 @@ export default class Member extends Component {
   signOut = () => {
     const { user } = this.props
 
-    user.signOut()
+    user.destroySession()
   }
 }

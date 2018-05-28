@@ -68,6 +68,18 @@ class User {
     }
   }
 
+  async destroySession() {
+    this.setIsLoading(true)
+
+    const response = await Api.delete(this.path)
+    const status = await response.status
+
+    if (status === 200) {
+      this.setIsLoading(false)
+      this.signOut()
+    }
+  }
+
   @action signOut() {
     localStorage.removeItem('email')
     localStorage.removeItem('token')
