@@ -7,8 +7,12 @@ class Transactions {
   @observable all = []
   @observable isLoading = false
 
+  @action setIsLoading(status) {
+    this.isLoading = status
+  }
+
   @action async fetchAll() {
-    this.isLoading = false
+    this.setIsLoading(true)
     const response = await Api.get(this.path)
     const status = await response.status
 
@@ -16,6 +20,7 @@ class Transactions {
       const json = await response.json()
       this.all = json.data
     }
+    this.setIsLoading(false)
   }
 
   @action async add(data) {

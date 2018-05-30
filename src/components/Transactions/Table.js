@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 
 import Row from './Row'
+import Spinner from '../Spinner'
 
 @inject('transactions')
 @observer
@@ -20,31 +21,7 @@ export default class Table extends Component {
       <section className="section">
         <div className="container">
           <h1 className="title">Транзакции</h1>
-          <div className="field is-grouped">
-            <button className="button" onClick={this.startAdding}>Добавить</button>
-          </div>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Дата</th>
-                <th>Заметка</th>
-                <th>Сумма</th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.renderAdding()}
-              {this.props.transactions.all.map(({ id, ...props }) => (
-                <Row
-                  key={id.toString()}
-                  id={id}
-                  {...props}
-                  isEdited={id === this.state.editedId}
-                  onClick={(e) => this.editCell(id, e)}
-                  cancelEdit={this.cancelEdit}
-                />
-              ))}
-            </tbody>
-          </table>
+          {this.renderTable()}
         </div>
       </section>
     )
@@ -71,6 +48,44 @@ export default class Table extends Component {
     )
   }
 
+  renderTable = () => {
+    const { transactions } = this.props
+
+    if (transactions.isLoading) {
+      return <Spinner />
+    }
+
+    return (
+      <div>
+        <div className="field is-grouped">
+          <button className="button" onClick={this.startAdding}>Добавить</button>
+        </div>
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Дата</th>
+              <th>Заметка</th>
+              <th>Сумма</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.renderAdding()}
+            {transactions.all.map(({ id, ...props }) => (
+              <Row
+                key={id.toString()}
+                id={id}
+                {...props}
+                isEdited={id === this.state.editedId}
+                onClick={(e) => this.editCell(id, e)}
+                cancelEdit={this.cancelEdit}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )
+  }
+
   startAdding = () => {
     this.setState({ isAdding: true })
   }
@@ -87,5 +102,5 @@ export default class Table extends Component {
     this.setState({ editedId: '' })
   }
 
-  doNothing = () => {}
+  doNothing = () => { }
 }
