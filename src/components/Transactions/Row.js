@@ -32,9 +32,9 @@ export default class Row extends Component {
         </tr>,
         <tr key={`${id}-submit`}>
           <td colSpan={3} className="td_edit">
-            <button className="button is-success mr" onClick={this.saveCell}>Сохранить</button>
+            <button className="button is-primary mr" onClick={this.saveCell}>Сохранить</button>
             {id !== 'new' && <button className="button is-danger mr" onClick={this.deleteCell}>Удалить</button>}
-            <button className="button is-light" onClick={cancelEdit}>Отменить</button>
+            <button className="button" onClick={cancelEdit}>Отменить</button>
           </td>
         </tr>
       ]

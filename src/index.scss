@@ -1,4 +1,7 @@
-@import 'bulma/bulma';
+$primary: #0575E6;
+$danger: #CC2936;
+
+@import "bulma/bulma";
 
 .pointer {
   cursor: pointer;
