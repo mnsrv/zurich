@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom'
 
 @inject('user')
 @observer
-export default class New extends Component {
+export default class Register extends Component {
   render() {
     if (this.props.user.signedIn) {
       return <Redirect to="/" />
@@ -12,33 +12,43 @@ export default class New extends Component {
     return (
       <section className="section">
         <div className="container">
-          <h1 className="title">Представьтесь</h1>
+          <h1 className="title">Регистрация</h1>
           <div className="columns">
             <div className="column is-one-third">
               <form onSubmit={this.submitForm}>
                 <div className="field">
-                  <label className="label">Почта</label>
                   <div className="control">
                     <input
                       ref={node => { this.email = node }}
                       className="input"
                       type="email"
+                      placeholder="Почта"
                     />
                   </div>
                 </div>
                 <div className="field">
-                  <label className="label">Пароль</label>
                   <div className="control">
                     <input
                       ref={node => { this.password = node }}
                       className="input"
                       type="password"
+                      placeholder="Пароль"
                     />
                   </div>
                 </div>
                 <div className="field">
                   <div className="control">
-                    <button className="button is-primary">Это я</button>
+                    <input
+                      ref={node => { this.repeatPassword = node }}
+                      className="input"
+                      type="password"
+                      placeholder="Повторите пароль"
+                    />
+                  </div>
+                </div>
+                <div className="field">
+                  <div className="control">
+                    <button className="button is-primary">Регистрация</button>
                   </div>
                 </div>
               </form>
@@ -51,9 +61,5 @@ export default class New extends Component {
 
   submitForm = (e) => {
     e.preventDefault()
-
-    const { user } = this.props
-
-    user.signIn(this.email.value, this.password.value)
   }
 }

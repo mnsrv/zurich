@@ -13,23 +13,13 @@ export default class Header extends Component {
 
   render() {
     const { user } = this.props
-    const color = user.signedIn ? 'is-dark' : 'is-light'
 
     return (
-      <nav className={`navbar ${color}`}>
+      <nav className={`navbar ${user.signedIn ? 'is-primary' : 'is-dark'}`}>
         <div className="container">
-          {this.renderGuestOrMember()}
+          {user.signedIn ? <Member /> : <Guest />}
         </div>
       </nav>
     )
-  }
-
-  renderGuestOrMember() {
-    const { user } = this.props
-
-    if (user.signedIn) {
-      return <Member />
-    }
-    return <Guest />
   }
 }

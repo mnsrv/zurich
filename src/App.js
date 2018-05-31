@@ -2,20 +2,20 @@ import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 
 import Header from './components/Header'
-import Home from './components/Home'
+import Login from './components/Auth/Login'
+import Register from './components/Auth/Register'
 import Table from './components/Transactions/Table'
-import New from './components/Sessions/New'
 
 class App extends Component {
   render() {
     return (
       <div>
         <Header />
-        <Route exact path="/" component={Home} />
+
         <Route path="/transactions" component={Table} />
-        <Route path="/users">
-          <Route path="/users/sign_in" component={New} />
-        </Route>
+
+        <Route path="/users/sign_in" component={Login} />
+        <Route path="/users/sign_up" component={Register} />
       </div>
     )
   }
