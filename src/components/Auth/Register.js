@@ -39,7 +39,7 @@ export default class Register extends Component {
                 <div className="field">
                   <div className="control">
                     <input
-                      ref={node => { this.repeatPassword = node }}
+                      ref={node => { this.password_confirmation = node }}
                       className="input"
                       type="password"
                       placeholder="Повторите пароль"
@@ -61,5 +61,9 @@ export default class Register extends Component {
 
   submitForm = (e) => {
     e.preventDefault()
+
+    const { user } = this.props
+
+    user.create(this.email.value, this.password.value, this.password_confirmation.value)
   }
 }

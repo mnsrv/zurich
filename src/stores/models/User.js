@@ -4,7 +4,8 @@ import navigation from '../../stores/Navigation'
 import Api from '../../helpers/api'
 
 class User {
-  path = '/sessions'
+  sessions = '/sessions'
+  users = '/users'
   @observable isLoading = false
   @observable signedIn = false
   @observable email = null
@@ -17,6 +18,28 @@ class User {
     this.signedIn = status
     if (status && email) {
       this.email = email
+    }
+  }
+
+  async create(email, password, password_confirmation) {
+    this.setIsLoading(true)
+
+    const response = await Api.post(this.users, { user: { email, password, password_confirmation }})
+    const status = await response.status
+
+    if (status === 200) {
+      const body = await response.json()
+      const { user } = body.data
+
+      localStorage.setItem('token', user.authentication_token)
+      localStorage.setItem('email', user.email)
+
+      this.setIsLoading(false)
+      this.setSignedIn(true, user.email)
+
+      navigation.push('/')
+    } else {
+      console.log('ERROR')
     }
   }
 
@@ -36,7 +59,7 @@ class User {
   }
 
   @action async signInFromStorage(email) {
-    const response = await Api.get(this.path)
+    const response = await Api.get(this.sessions)
     const status = await response.status
 
     if (status === 200) {
@@ -51,7 +74,7 @@ class User {
   async createSession(email, password) {
     this.setIsLoading(true)
 
-    const response = await Api.post(this.path, { email, password })
+    const response = await Api.post(this.sessions, { email, password })
     const status = await response.status
 
     if (status === 201) {
@@ -73,7 +96,7 @@ class User {
   async destroySession() {
     this.setIsLoading(true)
 
-    const response = await Api.delete(this.path)
+    const response = await Api.delete(this.sessions)
     const status = await response.status
 
     if (status === 200) {
