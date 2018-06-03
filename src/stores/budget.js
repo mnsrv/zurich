@@ -8,5 +8,6 @@ class Budget extends Connect {
 }
 
 mix(Budget, scopes.readable)
+mix(Budget, scopes.writable)
 
 export default Budget

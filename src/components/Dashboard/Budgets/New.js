@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
+import { inject, observer } from 'mobx-react'
 
+@inject('budget')
+@observer
 export default class NewBudget extends Component {
   render() {
     const { close } = this.props
 
     return (
-      <div className="modal-card">
+      <form className="modal-card" onSubmit={this.onSubmit}>
         <header className="modal-card-head">
           <p className="modal-card-title">Новый бюджет</p>
           <button className="delete" aria-label="close" onClick={close} />
@@ -14,16 +17,16 @@ export default class NewBudget extends Component {
           <div className="field">
             <label className="label">Название</label>
             <div className="control">
-              <input className="input" type="text" />
+              <input className="input" type="text" ref={node => this.name = node} />
             </div>
           </div>
           <div className="field">
             <label className="label">Валюта</label>
             <div className="control">
               <div className="select is-fullwidth">
-                <select>
-                  <option>Американский доллар – USD</option>
-                  <option>Российский рубль – RUB</option>
+                <select ref={node => this.currency = node} defaultValue="RUB">
+                  <option value="RUB">Российский рубль – RUB</option>
+                  <option value="USD">Американский доллар – USD</option>
                 </select>
               </div>
             </div>
@@ -33,7 +36,19 @@ export default class NewBudget extends Component {
           <button className="button" onClick={close}>Отмена</button>
           <button className="button is-primary">Создать бюджет</button>
         </footer>
-      </div>
+      </form>
     )
+  }
+
+  onSubmit = (e) => {
+    e.preventDefault()
+    const { budget } = this.props
+
+    budget.create({}, {
+      budget: {
+        name: this.name.value,
+        currency: this.currency.value
+      }
+    })
   }
 }
