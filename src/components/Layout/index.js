@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
+import { Link } from 'react-router-dom'
 
 import Member from './Header/Member'
 import Guest from './Header/Guest'
@@ -14,15 +15,11 @@ export default class Header extends Component {
 
   render() {
     const { user } = this.props
+    console.log(this.props)
 
     return (
-      <div>
-        <nav className={`navbar ${user.signedIn ? 'is-primary' : 'is-dark'}`}>
-          <div className="container">
-            {user.signedIn ? <Member /> : <Guest />}
-          </div>
-        </nav>
-
+      <div className="column is-narrow">
+        {user.signedIn ? <Member /> : <Guest />}
         <Modal ref={this.setModal} />
       </div>
     )

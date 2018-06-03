@@ -7,18 +7,26 @@ import NewBudget from './New'
 
 @inject('budget', 'settings')
 @observer
-export default class Budgets extends Component {
+export default class Dashboard extends Component {
+  componentDidMount() {
+    const { budget } = this.props
+
+    budget.findAll()
+  }
+
   render() {
     const { budget } = this.props
     const { collection } = budget
 
     return (
-      <div className="container">
-        <h1 className="title">Список бюджетов</h1>
-        <button className="button" onClick={this.openModal}>Создать бюджет</button>
+      <div className="section">
+        <div className="container">
+          <h1 className="title">Список бюджетов</h1>
+          <button className="button" onClick={this.openModal}>Создать бюджет</button>
 
-        <div className="buttons mt">
-          {collection.reverse().map(this.renderBudget)}
+          <div className="buttons mt">
+            {collection.reverse().map(this.renderBudget)}
+          </div>
         </div>
       </div>
     )
@@ -31,7 +39,7 @@ export default class Budgets extends Component {
     })
 
     return (
-      <Link key={item.id} to={`/budgets/${item.slug}`} className="button is-primary is-outlined">
+      <Link key={item.id} to={`/${item.slug}/accounts`} className="button is-primary is-outlined">
         <span className="icon">
           <i className={iconClasses} />
         </span>

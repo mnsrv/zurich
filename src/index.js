@@ -25,7 +25,7 @@ const models = {
 }
 
 ReactDOM.render(
-  <Provider {...stores} {...models} settings={settings}>
+  <Provider {...stores} {...models} endpoint={endpoint} settings={settings}>
     <Router history={stores.navigation.history}>
       <App />
     </Router>

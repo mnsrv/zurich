@@ -7,16 +7,17 @@ import { Link } from 'react-router-dom'
 export default class Member extends Component {
   render() {
     return (
-      <div className="navbar-menu">
-        <div className="navbar-start">
-          <Link to="/" className="navbar-item">Главная</Link>
-          <Link to="/transactions" className="navbar-item">Транзакции</Link>
-        </div>
-        <div className="navbar-end">
-          <div className="navbar-item">{this.props.user.email}</div>
-          <a className="navbar-item" onClick={this.signOut}>Выйти</a>
-        </div>
-      </div>
+      <aside class="menu">
+        <ul class="menu-list">
+          <li><Link to="/budgets">Все бюджеты</Link></li>
+          <li><Link to="/accounts">Все аккаунты</Link></li>
+        </ul>
+        <p class="menu-label">Профиль</p>
+        <ul class="menu-list">
+          <li><a>{this.props.user.email}</a></li>
+          <li><a onClick={this.signOut}>Выйти</a></li>
+        </ul>
+      </aside>
     )
   }
 

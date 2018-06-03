@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import { inject, observer } from 'mobx-react'
 
-@inject('transactions')
-@observer
 export default class Row extends Component {
   constructor(props) {
     super()
