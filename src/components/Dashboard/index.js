@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react'
 
 import Spinner from '../Spinner'
 import Welcome from './Welcome'
-import Budgets from './Budgets'
+import Budgets from './Budgets/Collection'
 
 @inject('budget')
 @observer
