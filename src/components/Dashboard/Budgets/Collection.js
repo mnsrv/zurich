@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 import { inject, observer } from 'mobx-react'
 
@@ -17,26 +18,25 @@ export default class Budgets extends Component {
         <button className="button" onClick={this.openModal}>Создать бюджет</button>
 
         <div className="buttons mt">
-          {collection.map(this.renderBudget)}
+          {collection.reverse().map(this.renderBudget)}
         </div>
       </div>
     )
   }
 
   renderBudget = (item) => {
-    console.log(item)
     const iconClasses = classNames('fas', {
       'fa-dollar-sign': item.currency === 'USD',
       'fa-ruble-sign': item.currency === 'RUB'
     })
 
     return (
-      <button key={item.id} className="button is-primary is-outlined">
+      <Link key={item.id} to={`/budgets/${item.slug}`} className="button is-primary is-outlined">
         <span className="icon">
           <i className={iconClasses} />
         </span>
         <span>{item.name}</span>
-      </button>
+      </Link>
     )
   }
 
