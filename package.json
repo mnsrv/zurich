@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "bulma": "^0.7.1",
+    "classnames": "^2.2.5",
     "fronto-api": "^1.0.2",
     "fronto-connect": "^1.0.8",
     "mobx": "^4.2.1",

@@ -7,8 +7,19 @@ export default class Welcome extends Component {
     return (
       <div className="container">
         <h1 className="title">Бюджет</h1>
-        <button className="button is-primary">Создать бюджет</button>
+        <button className="button is-primary" onClick={this.openModal}>Создать бюджет</button>
+        <Modal ref={this.refModal} />
       </div>
     )
   }
+
+  refModal = (node) => {
+    this.modal = node
+  }
+
+  openModal = () => {
+    this.modal.open()
+  }
+
+  modal
 }
