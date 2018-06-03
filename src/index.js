@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'mobx-react'
 import { Router } from 'react-router'
 import { api } from 'fronto-api'
+import '@fortawesome/fontawesome-free/js/all'
 
 import './index.css'
 import stores from './stores'

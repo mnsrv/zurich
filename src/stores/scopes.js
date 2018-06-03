@@ -23,11 +23,9 @@ const writable = {
       200: (response) => { this.setSelected(response.data) }
     })
   },
-  create(parameters, body) {
+  create(parameters, body, callback) {
     this.setIsLoading(true)
-    this.call({ parameters, body, type: 'post' }, {
-      201: (response) => { this.appendToCollection(response.data) }
-    })
+    this.call({ parameters, body, type: 'post' }, callback)
   },
   delete(parameters) {
     this.setIsLoading(true)

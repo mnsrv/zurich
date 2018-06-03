@@ -5,11 +5,18 @@ $modal-content-width: 500px;
 
 @import "bulma/bulma";
 
+.card-header-icon {
+  cursor: default;
+}
+
 .pointer {
   cursor: pointer;
 }
 .mr {
   margin-right: 0.5em;
+}
+.mt {
+  margin-top: 1.5em;
 }
 .table td {
   padding: 0;

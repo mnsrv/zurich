@@ -1,11 +1,17 @@
 import React, { Component } from 'react'
+import classNames from 'classnames'
 import { inject, observer } from 'mobx-react'
 
-@inject('budget')
+@inject('budget', 'settings')
 @observer
 export default class NewBudget extends Component {
   render() {
-    const { close } = this.props
+    const { budget, close } = this.props
+    const { isLoading } = budget
+
+    const buttonClasses = classNames('button', 'is-primary', {
+      'is-loading': isLoading
+    })
 
     return (
       <form className="modal-card" onSubmit={this.onSubmit}>
@@ -34,7 +40,7 @@ export default class NewBudget extends Component {
         </section>
         <footer className="modal-card-foot buttons is-right">
           <button className="button" onClick={close}>Отмена</button>
-          <button className="button is-primary">Создать бюджет</button>
+          <button className={buttonClasses}>Создать бюджет</button>
         </footer>
       </form>
     )
@@ -42,12 +48,18 @@ export default class NewBudget extends Component {
 
   onSubmit = (e) => {
     e.preventDefault()
-    const { budget } = this.props
+    const { budget, settings } = this.props
+    const { modal } = settings.layout
 
     budget.create({}, {
       budget: {
         name: this.name.value,
         currency: this.currency.value
+      }
+    }, {
+      201: (response) => {
+        budget.appendToCollection(response.data.budget)
+        modal.close()
       }
     })
   }
