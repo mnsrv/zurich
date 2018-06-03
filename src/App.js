@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 
-import Header from './components/Header'
+import Layout from './components/Layout'
 import Login from './components/Auth/Login'
 import Register from './components/Auth/Register'
 import Dashboard from './components/Dashboard'
@@ -11,7 +11,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Header />
+        <Layout />
 
         <Route path="/" exact component={Dashboard} />
         <Route path="/transactions" component={Table} />

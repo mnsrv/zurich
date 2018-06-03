@@ -17,8 +17,6 @@ export default class Dashboard extends Component {
   render() {
     const { collection, isLoading } = this.props.budget
 
-    console.log(collection.length)
-
     return (
       <div className="section">
         {this.renderDashboard()}

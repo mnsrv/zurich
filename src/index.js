@@ -6,6 +6,8 @@ import { api } from 'fronto-api'
 
 import './index.css'
 import stores from './stores'
+import settings from './settings'
+
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
 
@@ -22,7 +24,7 @@ const models = {
 }
 
 ReactDOM.render(
-  <Provider {...stores} {...models}>
+  <Provider {...stores} {...models} settings={settings}>
     <Router history={stores.navigation.history}>
       <App />
     </Router>
