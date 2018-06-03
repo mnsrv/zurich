@@ -2928,6 +2928,14 @@ from@~0:
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/from/-/from-0.1.7.tgz#83c60afc58b9c56997007ed1a768b3ab303a44fe"
 
+fronto-api@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/fronto-api/-/fronto-api-1.0.2.tgz#4dde90538b692dcacaa5f22e23cd8f1209600d9a"
+
+fronto-connect@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/fronto-connect/-/fronto-connect-1.0.8.tgz#22b4d9431395d2ca65f748d9e1a0db6a4892fd8f"
+
 fs-extra@3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-3.0.1.tgz#3794f378c58b342ea7dbbb23095109c4b3b62291"

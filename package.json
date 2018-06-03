@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "bulma": "^0.7.1",
+    "fronto-api": "^1.0.2",
+    "fronto-connect": "^1.0.8",
     "mobx": "^4.2.1",
     "mobx-react": "^5.1.2",
     "mobx-react-router": "^4.0.4",
