@@ -10,7 +10,7 @@ export default class Login extends Component {
     const { user } = this.props
     const { isLoading, signedIn } = user
 
-    if (this.props.user.signedIn) {
+    if (signedIn) {
       return <Redirect to="/" />
     }
 

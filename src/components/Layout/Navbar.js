@@ -7,16 +7,28 @@ import { Link } from 'react-router-dom'
 export default class Navbar extends Component {
   render() {
     return (
-      <aside class="menu">
-        <ul class="menu-list">
+      <aside className="menu menu_between is-fullheight">
+        <ul className="menu-list">
           <li><Link to="/budgets">Все бюджеты</Link></li>
           <li><Link to="/accounts">Все аккаунты</Link></li>
         </ul>
-        <p class="menu-label">Профиль</p>
-        <ul class="menu-list">
-          <li><a>{this.props.user.email}</a></li>
-          <li><a onClick={this.signOut}>Выйти</a></li>
-        </ul>
+        <div class="menu-list">
+          <div className="dropdown is-up is-hoverable">
+            <div className="dropdown-trigger">
+              <a className="is-vertical-center" aria-haspopup="true" aria-controls="dropdown-profile">
+                <span>{this.props.user.email}</span>
+                <span className="icon is-small">
+                  <i className="fas fa-angle-up" aria-hidden="true"></i>
+                </span>
+              </a>
+            </div>
+            <div className="dropdown-menu" id="dropdown-profile" role="menu">
+              <div className="dropdown-content">
+                <a className="dropdown-item" onClick={this.signOut}>Выйти</a>
+              </div>
+            </div>
+          </div>
+        </div>
       </aside>
     )
   }

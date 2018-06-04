@@ -9,7 +9,7 @@ import Spinner from '../Spinner'
 
 @inject('endpoint')
 @observer
-export default class Transactions extends React.Component {
+export default class Transactions extends Component {
   constructor(props) {
     super(props)
 

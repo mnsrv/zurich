@@ -12,6 +12,21 @@ $modal-content-width: 500px;
   padding: 1em;
   width: 260px;
 }
+.menu_between {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+.menu-list a.is-vertical-center {
+  display: flex;
+  align-items: center;
+}
+.menu-list a .icon {
+  margin-left: 0.5em;
+}
+.is-fullheight {
+  height: 100vh;
+}
 
 .pointer {
   cursor: pointer;
