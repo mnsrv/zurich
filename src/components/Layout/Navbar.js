@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 @inject('user')
 @observer
-export default class Member extends Component {
+export default class Navbar extends Component {
   render() {
     return (
       <aside class="menu">

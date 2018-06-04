@@ -59,13 +59,13 @@ class User {
   }
 
   @action async signInFromStorage(email) {
+    this.setIsLoading(true)
     const response = await Api.get(this.sessions)
     const status = await response.status
 
     if (status === 200) {
-      this.email = email
-      this.signedIn = true
-      this.isLoading = false
+      this.setIsLoading(false)
+      this.setSignedIn(true, email)
     } else {
       this.signOut()
     }
