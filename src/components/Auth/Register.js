@@ -1,18 +1,14 @@
 import React, { Component } from 'react'
-import classNames from 'classnames'
+import { Link } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
-import { Link, Redirect } from 'react-router-dom'
+import classNames from 'classnames'
 
 @inject('user')
 @observer
 export default class Register extends Component {
   render() {
     const { user } = this.props
-    const { isLoading, signedIn } = user
-
-    if (signedIn) {
-      return <Redirect to="/" />
-    }
+    const { isLoading } = user
 
     const buttonClasses = classNames('button', 'is-primary', {
       'is-loading': isLoading

@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Provider } from 'mobx-react'
-import { Router } from 'react-router'
 import { api } from 'fronto-api'
 import '@fortawesome/fontawesome-free/js/all'
 
@@ -26,8 +26,8 @@ const models = {
 
 ReactDOM.render(
   <Provider {...stores} {...models} endpoint={endpoint} settings={settings}>
-    <Router history={stores.navigation.history}>
-      <App />
+    <Router>
+      <Route component={App} />
     </Router>
   </Provider>,
   document.getElementById('root')

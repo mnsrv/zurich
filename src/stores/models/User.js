@@ -1,13 +1,12 @@
 import { observable, action } from 'mobx'
 
-import navigation from '../../stores/Navigation'
 import Api from '../../helpers/api'
 
 class User {
   sessions = '/sessions'
   users = '/users'
   @observable isLoading = false
-  @observable signedIn = false
+  @observable signedIn = null
   @observable email = null
 
   @action setIsLoading(status) {
@@ -36,8 +35,6 @@ class User {
 
       this.setIsLoading(false)
       this.setSignedIn(true, user.email)
-
-      navigation.push('/')
     } else {
       console.log('ERROR')
     }
@@ -86,8 +83,6 @@ class User {
 
       this.setIsLoading(false)
       this.setSignedIn(true, user.email)
-
-      navigation.push('/')
     } else {
       console.log('ERROR')
     }
@@ -111,8 +106,6 @@ class User {
     this.email = null
     this.signedIn = false
     this.isLoading = false
-
-    navigation.push('/users/sign_in')
   }
 }
 

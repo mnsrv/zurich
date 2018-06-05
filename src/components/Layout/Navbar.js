@@ -8,11 +8,17 @@ export default class Navbar extends Component {
   render() {
     return (
       <aside className="menu menu_between is-fullheight">
-        <ul className="menu-list">
-          <li><Link to="/budgets">Все бюджеты</Link></li>
-          <li><Link to="/accounts">Все аккаунты</Link></li>
-        </ul>
-        <div class="menu-list">
+        <div>
+          <ul className="menu-list">
+            <li><Link to="/budgets">Все бюджеты</Link></li>
+            <li><Link to="/accounts">Все счета</Link></li>
+          </ul>
+          <p className="menu-label">Нет счетов</p>
+          <ul className="menu-list">
+            <li><Link to="/accounts">Создайте счет</Link></li>
+          </ul>
+        </div>
+        <div className="menu-list">
           <div className="dropdown is-up is-hoverable">
             <div className="dropdown-trigger">
               <a className="is-vertical-center" aria-haspopup="true" aria-controls="dropdown-profile">

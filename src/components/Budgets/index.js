@@ -20,13 +20,11 @@ export default class Dashboard extends Component {
 
     return (
       <div className="section">
-        <div className="container">
-          <h1 className="title">Список бюджетов</h1>
-          <button className="button" onClick={this.openModal}>Создать бюджет</button>
+        <h1 className="title">Выберите бюджет</h1>
+        <button className="button" onClick={this.openModal}>Создать бюджет</button>
 
-          <div className="buttons mt">
-            {collection.reverse().map(this.renderBudget)}
-          </div>
+        <div className="buttons mt">
+          {collection.reverse().map(this.renderBudget)}
         </div>
       </div>
     )

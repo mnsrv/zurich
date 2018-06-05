@@ -1,34 +1,22 @@
 import React, { Component } from 'react'
-import { inject, observer } from 'mobx-react'
+import { Route } from 'react-router-dom'
 
 import Navbar from './Navbar'
-import Modal from './Modal'
+import Budgets from '../Budgets'
+import Transactions from '../Transactions'
 
-@inject('settings', 'user')
-@observer
-export default class Header extends Component {
-  componentWillMount() {
-    this.props.user.signIn()
-  }
-
+export default class Layout extends Component {
   render() {
-    const { user } = this.props
-    
-    if (!user.signedIn) {
-      return null
-    }
-
     return (
-      <div className="column is-narrow">
-        <Navbar />
-        <Modal ref={this.setModal} />
+      <div className="columns is-gapless">
+        <div className="column is-narrow">
+          <Navbar />
+        </div>
+        <div className="column">
+          <Route exact path="/budgets" component={Budgets} />
+          <Route path="/:budgetId/accounts" component={Transactions} />
+        </div>
       </div>
     )
-  }
-
-  setModal = (node) => {
-    const { settings } = this.props
-
-    settings.layout.modal = node
   }
 }

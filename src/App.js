@@ -1,27 +1,38 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
+import { Redirect, Route } from 'react-router-dom'
+import { inject, observer } from 'mobx-react'
 
+import Modal from './components/Modal'
+import GuestRoutes from './components/GuestRoutes'
 import Layout from './components/Layout'
-import Login from './components/Auth/Login'
-import Register from './components/Auth/Register'
-import Budgets from './components/Budgets'
-import Transactions from './components/Transactions'
 
+@inject('settings', 'user')
+@observer
 class App extends Component {
+  componentWillMount() {
+    const { user } = this.props
+
+    user.signIn()
+  }
+
   render() {
+    const { user } = this.props
+    const { signedIn } = user
+
     return (
-      <div className="columns is-gapless">
-        <Layout />
+      <div>
+        <Modal ref={this.setModal} />
 
-        <div className="column">
-          <Route path="/budgets" exact component={Budgets} />
-          <Route path="/:budgetId/accounts" component={Transactions} />
-
-          <Route path="/users/sign_in" component={Login} />
-          <Route path="/users/sign_up" component={Register} />
-        </div>
+        <Route path="/users" render={props => signedIn ? <Redirect to="/" /> : <GuestRoutes />} />
+        <Route render={props => signedIn === false ? <Redirect to="/users/sign_in" /> : <Route component={Layout} />} />
       </div>
     )
+  }
+
+  setModal = (node) => {
+    const { settings } = this.props
+
+    settings.layout.modal = node
   }
 }
 
