@@ -10,7 +10,8 @@ export default class Layout extends Component {
     return (
       <div className="columns is-gapless">
         <div className="column is-narrow">
-          <Navbar />
+          <Route exact path="/budgets" component={Navbar} />
+          <Route path="/:budgetId/accounts" component={Navbar} />
         </div>
         <div className="column">
           <Route exact path="/budgets" component={Budgets} />

@@ -2,22 +2,22 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
 
-@inject('user')
+@inject('budget', 'user')
 @observer
 export default class Navbar extends Component {
+  componentDidMount() {
+    const { budget } = this.props
+
+    budget.findAll()
+  }
+
   render() {
+    const { match } = this.props
+    const { params } = match
+
     return (
       <aside className="menu menu_between is-fullheight">
-        <div>
-          <ul className="menu-list">
-            <li><Link to="/budgets">Все бюджеты</Link></li>
-            <li><Link to="/accounts">Все счета</Link></li>
-          </ul>
-          <p className="menu-label">Нет счетов</p>
-          <ul className="menu-list">
-            <li><Link to="/accounts">Создайте счет</Link></li>
-          </ul>
-        </div>
+        {params.budgetId ? this.renderBudget() : this.renderOther()}
         <div className="menu-list">
           <div className="dropdown is-up is-hoverable">
             <div className="dropdown-trigger">
@@ -36,6 +36,39 @@ export default class Navbar extends Component {
           </div>
         </div>
       </aside>
+    )
+  }
+
+  renderOther = () => {
+    const { budget } = this.props
+    const { collection } = budget
+
+    if (collection.length === 0) {
+      return <div />
+    }
+    return (
+      <div>
+        <p className="menu-label">Выберите бюджет</p>
+        <ul className="menu-list">
+          {collection.map(item => <li key={item.id}><Link to={`/${item.slug}/accounts`}>{item.name}</Link></li>)}
+        </ul>
+      </div>
+    )
+  }
+
+  renderBudget = () => {
+    return (
+      <div>
+        <p className="menu-label">Меню</p>
+        <ul className="menu-list">
+          <li><Link to="/budgets">Все бюджеты</Link></li>
+          <li><Link to="/accounts">Все счета</Link></li>
+        </ul>
+        <p className="menu-label">Нет счетов</p>
+        <ul className="menu-list">
+          <li><Link to="/accounts">Создайте счет</Link></li>
+        </ul>
+      </div>
     )
   }
 
