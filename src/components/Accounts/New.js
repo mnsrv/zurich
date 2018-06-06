@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
+import { matchPath, withRouter } from 'react-router-dom'
 import { extendObservable } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import classNames from 'classnames'
@@ -13,7 +13,10 @@ export default class NewAccount extends Component {
   constructor(props) {
     super(props)
 
-    const { endpoint, match } = props
+    const { location, endpoint } = props
+    const match = matchPath(props.location.pathname,{
+      path: '/:budgetId/accounts'
+    })
     const { budgetId } = match.params
 
     extendObservable(this, {
@@ -65,22 +68,18 @@ export default class NewAccount extends Component {
   onSubmit = (e) => {
     e.preventDefault()
 
-    // const { budget, settings } = this.props
-    // const { modal } = settings.layout
-    console.log('name', this.name.value)
-    console.log('on_budget', this.on_budget.checked)
-    console.log('balance', this.balance.value)
+    const { close } = this.props
 
-    // budget.create({}, {
-    //   budget: {
-    //     name: this.name.value,
-    //     currency: this.currency.value
-    //   }
-    // }, {
-    //   201: (response) => {
-    //     budget.appendToCollection(response.data.budget)
-    //     modal.close()
-    //   }
-    // })
+    this.accounts.create({}, {
+      account: {
+        name: this.name.value,
+        on_budget: this.on_budget.checked,
+        balance: this.balance.value
+      }
+    }, {
+      201: () => {
+        close()
+      }
+    })
   }
 }
