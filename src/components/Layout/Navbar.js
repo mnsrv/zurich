@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Link, NavLink } from 'react-router-dom'
 
-@inject('budget', 'user')
+import NewAccount from '../Accounts/New'
+
+@inject('budget', 'settings', 'user')
 @observer
 export default class Navbar extends Component {
   componentWillMount() {
@@ -32,7 +34,7 @@ export default class Navbar extends Component {
           <ul className="menu-list">
             <li></li>
           </ul>
-          <button className="button is-small">Создать счет</button>
+          <button className="button is-small" onClick={this.openCreateAccountModal}>Создать счет</button>
         </div>
         <div className="menu-list">
           <div className="dropdown is-up is-hoverable">
@@ -55,6 +57,14 @@ export default class Navbar extends Component {
         </div>
       </aside>
     )
+  }
+
+  openCreateAccountModal = () => {
+    const { settings } = this.props
+    const { modal } = settings.layout
+
+    modal.setContent(<NewAccount close={modal.close} />)
+    modal.open()
   }
 
   signOut = () => {
