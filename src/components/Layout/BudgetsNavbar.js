@@ -4,19 +4,14 @@ import { Link } from 'react-router-dom'
 
 @inject('budget', 'user')
 @observer
-export default class Navbar extends Component {
-  componentWillMount() {
-    const { budget, match } = this.props
-    const { params } = match
-    const { budgetId } = params
+export default class BudgetsNavbar extends Component {
+  componentDidMount() {
+    const { budget } = this.props
 
-    budget.findBy({ id: budgetId })
+    budget.findAll()
   }
 
   render() {
-    const { user } = this.props
-    const { email } = user
-
     return (
       <aside className="menu menu_between is-fullheight">
         {this.renderMenu()}
@@ -24,7 +19,7 @@ export default class Navbar extends Component {
           <div className="dropdown is-up is-hoverable">
             <div className="dropdown-trigger">
               <a className="is-vertical-center" aria-haspopup="true" aria-controls="dropdown-profile">
-                <span>{email}</span>
+                <span>{this.props.user.email}</span>
                 <span className="icon is-small">
                   <i className="fas fa-angle-up" aria-hidden="true"></i>
                 </span>
@@ -32,8 +27,6 @@ export default class Navbar extends Component {
             </div>
             <div className="dropdown-menu" id="dropdown-profile" role="menu">
               <div className="dropdown-content">
-                <Link className="dropdown-item" to="/budgets">Все бюджеты</Link>
-                <hr className="dropdown-divider" />
                 <a className="dropdown-item" onClick={this.signOut}>Выйти</a>
               </div>
             </div>
@@ -44,21 +37,17 @@ export default class Navbar extends Component {
   }
 
   renderMenu = () => {
-    const { match } = this.props
-    const { params } = match
-    const { budgetId } = params
+    const { budget } = this.props
+    const { collection } = budget
 
-    const { budget = {} } = this.props.budget.selected
-
+    if (collection.length === 0) {
+      return <div />
+    }
     return (
       <div>
-        <p className="menu-label">{budget.name}</p>
+        <p className="menu-label">Выберите бюджет</p>
         <ul className="menu-list">
-          <li><Link to={`/${budgetId}/accounts`}>Все счета</Link></li>
-        </ul>
-        <p className="menu-label">Нет счетов</p>
-        <ul className="menu-list">
-          <li><Link to="/accounts">Создайте счет</Link></li>
+          {collection.map(item => <li key={item.id}><Link to={`/${item.slug}/accounts`}>{item.name}</Link></li>)}
         </ul>
       </div>
     )
