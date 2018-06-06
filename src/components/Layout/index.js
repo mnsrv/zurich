@@ -4,6 +4,7 @@ import { Route } from 'react-router-dom'
 import BudgetsNavbar from './BudgetsNavbar'
 import Navbar from './Navbar'
 import Budgets from '../Budgets'
+import Accounts from '../Accounts'
 import Transactions from '../Transactions'
 
 export default class Layout extends Component {
@@ -16,7 +17,7 @@ export default class Layout extends Component {
         </div>
         <div className="column">
           <Route exact path="/budgets" component={Budgets} />
-          <Route path="/:budgetId/accounts" component={Transactions} />
+          <Route path="/:budgetId/accounts" component={Accounts} />
         </div>
       </div>
     )

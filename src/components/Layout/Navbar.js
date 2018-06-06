@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
 @inject('budget', 'user')
 @observer
@@ -14,12 +14,26 @@ export default class Navbar extends Component {
   }
 
   render() {
-    const { user } = this.props
+    const { match, user } = this.props
     const { email } = user
+    const { params } = match
+    const { budgetId } = params
+
+    const { budget = {} } = this.props.budget.selected
 
     return (
       <aside className="menu menu_between is-fullheight">
-        {this.renderMenu()}
+        <div>
+          <p className="menu-label">{budget.name}</p>
+          <ul className="menu-list">
+            <li><NavLink to={`/${budgetId}/accounts`} activeClassName="is-active">Все счета</NavLink></li>
+          </ul>
+          <p className="menu-label">Нет счетов</p>
+          <ul className="menu-list">
+            <li></li>
+          </ul>
+          <button className="button is-small">Создать счет</button>
+        </div>
         <div className="menu-list">
           <div className="dropdown is-up is-hoverable">
             <div className="dropdown-trigger">
@@ -40,27 +54,6 @@ export default class Navbar extends Component {
           </div>
         </div>
       </aside>
-    )
-  }
-
-  renderMenu = () => {
-    const { match } = this.props
-    const { params } = match
-    const { budgetId } = params
-
-    const { budget = {} } = this.props.budget.selected
-
-    return (
-      <div>
-        <p className="menu-label">{budget.name}</p>
-        <ul className="menu-list">
-          <li><Link to={`/${budgetId}/accounts`}>Все счета</Link></li>
-        </ul>
-        <p className="menu-label">Нет счетов</p>
-        <ul className="menu-list">
-          <li><Link to="/accounts">Создайте счет</Link></li>
-        </ul>
-      </div>
     )
   }
 
