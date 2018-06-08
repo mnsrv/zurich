@@ -43,7 +43,7 @@ export default class Navbar extends Component {
         <div>
           <p className="menu-label">{budget.name}</p>
           <ul className="menu-list">
-            <li><NavLink to={`/${budgetId}/accounts`} activeClassName="is-active">Все счета</NavLink></li>
+            <li><NavLink exact to={`/${budgetId}/accounts`} activeClassName="is-active">Все счета</NavLink></li>
           </ul>
           <p className="menu-label">Счета</p>
           <ul className="menu-list">
@@ -51,7 +51,7 @@ export default class Navbar extends Component {
               return <li key={acc.id}><NavLink to={`/${budgetId}/accounts/${acc.id}`} activeClassName="is-active">{acc.name}</NavLink></li>
             })}
           </ul>
-          <button className="button is-small" onClick={this.openCreateAccountModal}>Создать счет</button>
+          <button className="button is-small mt" onClick={this.openCreateAccountModal}>Создать счет</button>
         </div>
         <div className="menu-list">
           <div className="dropdown is-up is-hoverable">
