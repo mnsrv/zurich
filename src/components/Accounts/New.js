@@ -25,10 +25,18 @@ export default class NewAccount extends Component {
   }
 
   render() {
+    const { message } = this.accounts
     const { close } = this.props
 
     const buttonClasses = classNames('button', 'is-primary', {
       'is-loading': false
+    })
+
+    const nameClasses = classNames('input', {
+      'is-danger': message && message.name
+    })
+    const balanceClasses = classNames('input', {
+      'is-danger': message && message.balance
     })
 
     return (
@@ -41,8 +49,9 @@ export default class NewAccount extends Component {
           <div className="field">
             <label className="label">Название</label>
             <div className="control">
-              <input className="input" type="text" ref={node => this.name = node} />
+              <input className={nameClasses} type="text" ref={node => this.name = node} onChange={this.onChange} />
             </div>
+            {message && message.name && <p className="help is-danger">{message.name}</p>}
           </div>
           <div className="field">
             <label className="checkbox">
@@ -53,8 +62,9 @@ export default class NewAccount extends Component {
           <div className="field">
             <label className="label">Баланс</label>
             <div className="control">
-              <input className="input" type="number" ref={node => this.balance = node} />
+              <input className={balanceClasses} type="number" ref={node => this.balance = node} onChange={this.onChange} />
             </div>
+            {message && message.balance && <p className="help is-danger">{message.balance}</p>}
           </div>
         </section>
         <footer className="modal-card-foot buttons is-right">
@@ -63,6 +73,14 @@ export default class NewAccount extends Component {
         </footer>
       </form>
     )
+  }
+
+  onChange = () => {
+    const { message } = this.accounts
+
+    if (message) {
+      this.accounts.clearMessage()
+    }
   }
 
   onSubmit = (e) => {
@@ -79,6 +97,9 @@ export default class NewAccount extends Component {
     }, {
       201: () => {
         close()
+      },
+      422: (response) => {
+        this.accounts.setMessage(response.errors)
       }
     })
   }
