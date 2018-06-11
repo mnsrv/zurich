@@ -5,7 +5,8 @@ import BudgetsNavbar from './BudgetsNavbar'
 import Navbar from './Navbar'
 import Budgets from '../Budgets'
 import Accounts from '../Accounts'
-import Transactions from '../Transactions'
+import AllTransactions from '../Transactions'
+import AccountTransactions from '../AccountTransactions'
 
 export default class Layout extends Component {
   render() {
@@ -17,7 +18,8 @@ export default class Layout extends Component {
         </div>
         <div className="column">
           <Route exact path="/budgets" component={Budgets} />
-          <Route path="/:budgetId/accounts" component={Accounts} />
+          <Route exact path="/:budgetId/accounts" component={AllTransactions} />
+          <Route exact path="/:budgetId/accounts/:accountId" component={AccountTransactions} />
         </div>
       </div>
     )

@@ -14,10 +14,11 @@ export default class Transactions extends Component {
     super(props)
 
     const { endpoint, match } = props
-    const { budgetId } = match.params
+    const { accountId, budgetId } = match.params
 
     extendObservable(this, {
-      transactions: new stores.Transaction(endpoint, `v1/${budgetId}`)
+      accounts: new stores.Account(endpoint, `v1/${budgetId}`),
+      transactions: new stores.Transaction(endpoint, `v1/${budgetId}/accounts/${accountId}`)
     })
 
     this.state = {
@@ -27,14 +28,25 @@ export default class Transactions extends Component {
   }
 
   componentDidMount() {
+    const { budget, match } = this.props
+    const { params } = match
+    const { accountId } = params
+
     this.transactions.findAll()
+    this.accounts.findBy({ id: accountId })
   }
 
   render() {
+    const { account } = this.accounts.selected
+    
+    if (!account) {
+      return null
+    }
+
     return (
       <section className="section">
         <div className="container">
-          <h1 className="title">Все счета</h1>
+          <h1 className="title">{account.name}</h1>
           <div className="field is-grouped">
             <button className="button" onClick={this.startAdding}>Добавить</button>
           </div>
