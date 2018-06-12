@@ -16,6 +16,7 @@ export default class Transactions extends Component {
     const { budgetId } = match.params
 
     this.accounts = new stores.Account(endpoint, `v1/${budgetId}`)
+    this.transactions = new stores.Transaction(endpoint, `v1/${budgetId}`)
 
     this.state = {
       isAdding: false,
@@ -23,12 +24,12 @@ export default class Transactions extends Component {
     }
   }
 
-  componentDidMount() {
-    const { match } = this.props
-    const { params } = match
-    const { accountId } = params
+  componentWillReceiveProps(nextProps) {
+    const { match } = nextProps
+    const { accountId } = match.params
 
     this.accounts.findBy({ id: accountId })
+    this.transactions.findAll({ accounts: accountId })
   }
 
   render() {
@@ -65,11 +66,25 @@ export default class Transactions extends Component {
         key="new"
         id="new"
         {...newCell}
+        create={this.createTransaction}
         isEdited={true}
         onClick={this.doNothing}
         cancelEdit={this.cancelAdding}
       />
     )
+  }
+
+  createTransaction = (transaction) => {
+    const { match } = this.props
+    const { accountId } = match.params
+
+    this.transactions.create({ accounts: accountId }, {
+      transaction
+    }, {
+      201: (response) => {
+        this.transactions.appendToCollection(response.data.transaction)
+      }
+    })
   }
 
   renderTable = () => {
@@ -97,14 +112,13 @@ export default class Transactions extends Component {
   }
 
   renderRows = () => {
-    const { account } = this.accounts.selected
+    const { collection } = this.transactions
 
-    return account.transactions.map(({ id, ...props }) => (
+    return collection.map(({ id, ...props }) => (
       <Row
         key={id.toString()}
         id={id}
         {...props}
-        create={() => { console.log('TODO: create') }}
         isEdited={id === this.state.editedId}
         onClick={(e) => this.editCell(id, e)}
         cancelEdit={this.cancelEdit}
