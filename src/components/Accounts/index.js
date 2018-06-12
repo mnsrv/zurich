@@ -41,7 +41,12 @@ export default class Accounts extends Component {
     const { settings } = this.props
     const { modal } = settings.layout
 
-    modal.setContent(<NewAccount close={modal.close} />)
+    modal.setContent(
+      <NewAccount
+        close={modal.close}
+        appendToCollection={this.accounts.appendToCollection}
+      />
+    )
     modal.open()
   }
 }

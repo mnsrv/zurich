@@ -86,7 +86,7 @@ export default class NewAccount extends Component {
   onSubmit = (e) => {
     e.preventDefault()
 
-    const { close } = this.props
+    const { appendToCollection, close } = this.props
 
     this.accounts.create({}, {
       account: {
@@ -95,7 +95,8 @@ export default class NewAccount extends Component {
         balance: this.balance.value
       }
     }, {
-      201: () => {
+      201: (response) => {
+        appendToCollection(response.data.account)
         close()
       },
       422: (response) => {
