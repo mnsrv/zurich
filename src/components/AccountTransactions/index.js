@@ -24,12 +24,22 @@ export default class Transactions extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { match } = nextProps
+  componentDidMount() {
+    const { match } = this.props
     const { accountId } = match.params
 
     this.accounts.findBy({ id: accountId })
     this.transactions.findAll({ accounts: accountId })
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { match } = nextProps
+    const { accountId } = match.params
+
+    if (this.props.match.params.accountId !== accountId) {
+      this.accounts.findBy({ id: accountId })
+      this.transactions.findAll({ accounts: accountId })
+    }
   }
 
   render() {
