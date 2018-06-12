@@ -13,7 +13,7 @@ export default class Transactions extends Component {
     super(props)
 
     const { endpoint, match } = props
-    const { accountId, budgetId } = match.params
+    const { budgetId } = match.params
 
     this.accounts = new stores.Account(endpoint, `v1/${budgetId}`)
 
@@ -24,7 +24,7 @@ export default class Transactions extends Component {
   }
 
   componentDidMount() {
-    const { budget, match } = this.props
+    const { match } = this.props
     const { params } = match
     const { accountId } = params
 

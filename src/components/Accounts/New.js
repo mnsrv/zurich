@@ -14,7 +14,7 @@ export default class NewAccount extends Component {
     super(props)
 
     const { location, endpoint } = props
-    const match = matchPath(props.location.pathname,{
+    const match = matchPath(location.pathname,{
       path: '/:budgetId/accounts'
     })
     const { budgetId } = match.params

@@ -4,7 +4,6 @@ import { Route } from 'react-router-dom'
 import BudgetsNavbar from './BudgetsNavbar'
 import Navbar from './Navbar'
 import Budgets from '../Budgets'
-import Accounts from '../Accounts'
 import AllTransactions from '../Transactions'
 import AccountTransactions from '../AccountTransactions'
 
