@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { extendObservable } from 'mobx'
 import { inject, observer } from 'mobx-react'
 
 import stores from '../../stores'
@@ -16,10 +15,7 @@ export default class Transactions extends Component {
     const { endpoint, match } = props
     const { accountId, budgetId } = match.params
 
-    extendObservable(this, {
-      accounts: new stores.Account(endpoint, `v1/${budgetId}`),
-      transactions: new stores.Transaction(endpoint, `v1/${budgetId}/accounts/${accountId}`)
-    })
+    this.accounts = new stores.Account(endpoint, `v1/${budgetId}`)
 
     this.state = {
       isAdding: false,
@@ -32,7 +28,6 @@ export default class Transactions extends Component {
     const { params } = match
     const { accountId } = params
 
-    this.transactions.findAll()
     this.accounts.findBy({ id: accountId })
   }
 
@@ -78,7 +73,7 @@ export default class Transactions extends Component {
   }
 
   renderTable = () => {
-    const { isLoading } = this.transactions
+    const { isLoading } = this.accounts
 
     if (isLoading) {
       return <Spinner />
@@ -102,14 +97,14 @@ export default class Transactions extends Component {
   }
 
   renderRows = () => {
-    const { collection, create } = this.transactions
+    const { account } = this.accounts.selected
 
-    return collection.map(({ id, ...props }) => (
+    return account.transactions.map(({ id, ...props }) => (
       <Row
         key={id.toString()}
         id={id}
         {...props}
-        create={create}
+        create={() => { console.log('TODO: create') }}
         isEdited={id === this.state.editedId}
         onClick={(e) => this.editCell(id, e)}
         cancelEdit={this.cancelEdit}

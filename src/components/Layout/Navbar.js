@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Link, NavLink } from 'react-router-dom'
-import { extendObservable } from 'mobx'
 
 import stores from '../../stores'
 import NewAccount from '../Accounts/New'
@@ -15,9 +14,7 @@ export default class Navbar extends Component {
     const { endpoint, match } = props
     const { budgetId } = match.params
 
-    extendObservable(this, {
-      accounts: new stores.Account(endpoint, `v1/${budgetId}`)
-    })
+    this.accounts = new stores.Account(endpoint, `v1/${budgetId}`)
   }
 
   componentDidMount() {
