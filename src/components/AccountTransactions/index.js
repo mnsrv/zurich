@@ -20,7 +20,8 @@ export default class Transactions extends Component {
 
     this.state = {
       isAdding: false,
-      editedId: ''
+      editedId: '',
+      selectedId: ''
     }
   }
 
@@ -80,6 +81,9 @@ export default class Transactions extends Component {
     }
 
     const columns = [{
+      label: '',
+      value: 'checkbox'
+    },{
       label: 'Дата',
       value: 'date'
     }, {
@@ -97,16 +101,27 @@ export default class Transactions extends Component {
         isAdding={this.state.isAdding}
         cancelAdding={this.cancelAdding}
         createTransaction={this.createTransaction}
+        selectedId={this.state.selectedId}
+        selectRow={this.selectRow}
+        cancelSelect={this.cancelSelect}
       />
     )
   }
 
   startAdding = () => {
-    this.setState({ isAdding: true })
+    this.setState({ isAdding: true, selectedId: '' })
   }
 
   cancelAdding = () => {
     this.setState({ isAdding: false })
+  }
+
+  selectRow = (id) => {
+    this.setState({ selectedId: id })
+  }
+
+  cancelSelect = () => {
+    this.setState({ selectedId: '' })
   }
 
   editCell = (id) => {

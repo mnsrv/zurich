@@ -5,8 +5,6 @@ $modal-content-width: 500px;
 
 @import "bulma/bulma";
 
-$table-row-active-background-color: $light;
-
 .table {
   display: table;
 }
@@ -207,6 +205,13 @@ $table-row-active-background-color: $light;
   white-space: nowrap;
   -webkit-font-smoothing: antialiased
 }
+.tr {
+  cursor: pointer;
+
+  &.is-selected {
+    cursor: text;
+  }
+}
 .table input {
   padding: 0.3em 0.5em;
   box-shadow: none;
@@ -223,6 +228,12 @@ $table-row-active-background-color: $light;
   .button {
     margin: 0 0.25em;
   }
+}
+.td.td-checkbox {
+  padding: 0.35rem;
+}
+.td-checkbox {
+  width: 1.625rem;
 }
 .td-date {
   width: 8rem;

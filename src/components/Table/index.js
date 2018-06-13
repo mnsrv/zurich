@@ -33,12 +33,24 @@ export default class GalleonTable extends Component {
   }
 
   renderRow = (row) => {
-    const { columns } = this.props
+    const { columns, selectedId, selectRow } = this.props
+
+    const rowClassName = classNames('tr', {
+      'is-selected': row.id === selectedId
+    })
 
     return (
-      <div className="tr" key={row.id}>
+      <div className={rowClassName} key={row.id} onClick={() => selectRow(row.id)}>
         {columns.map(column => {
           const cellClassName = classNames('td', { [`td-${column.value}`]: true })
+
+          if (column.value === 'checkbox') {
+            return (
+              <div key={column.value} className={cellClassName}>
+                <input type="checkbox" checked={row.id === selectedId} onChange={() => this.toggleSelection(row.id)} />
+              </div>
+            )
+          }
 
           return <div key={column.value} className={cellClassName}>{row[column.value]}</div>
         })}
@@ -77,7 +89,7 @@ export default class GalleonTable extends Component {
                 ? (
                   <div className="action-buttons">
                     <button className="button" onClick={this.cancel}>Отмена</button>
-                    <button className="button is-primary" onClick={this.save}>Сохранить</button>
+                    <button className="button is-primary is-inverted is-outlined" onClick={this.save}>Сохранить</button>
                   </div>
                 )
                 : '   '}
@@ -99,6 +111,16 @@ export default class GalleonTable extends Component {
       this.renderAddRow(),
       this.renderAddActionsRow()
     ]
+  }
+
+  toggleSelection = (id) => {
+    const { selectedId, cancelSelect, selectRow } = this.props
+
+    if (id === selectedId) {
+      cancelSelect()
+    } else {
+      selectRow(id)
+    }
   }
 
   save = () => {
