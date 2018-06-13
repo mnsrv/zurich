@@ -203,6 +203,10 @@ $table-row-active-background-color: $light;
 .table .td.is-adding {
   padding: 0.2em 0.25em;
 }
+.td {
+  white-space: nowrap;
+  -webkit-font-smoothing: antialiased
+}
 .table input {
   padding: 0.3em 0.5em;
   box-shadow: none;
@@ -214,7 +218,21 @@ $table-row-active-background-color: $light;
 .action-buttons {
   position: absolute;
   top: 0;
-  right: 0.25em;
+  right: 0;
+
+  .button {
+    margin: 0 0.25em;
+  }
+}
+.td-date {
+  width: 8rem;
+}
+.th.th-amount {
+  text-align: right;
+}
+.td-amount {
+  width: 10%;
+  text-align: right;
 }
 
 .pointer {
