@@ -5,9 +5,180 @@ $modal-content-width: 500px;
 
 @import "bulma/bulma";
 
+$table-row-active-background-color: $light;
+
+.table {
+  display: table;
+}
+.thead {
+  display: table-header-group;
+  vertical-align: middle;
+}
+.tbody {
+  display: table-row-group;
+  vertical-align: middle;
+}
+.tr {
+  display: table-row;
+}
+.th {
+  display: table-cell;
+  font-weight: bold;
+}
+.td {
+  display: table-cell;
+}
+
+.table {
+  .td,
+  .th {
+    border: $table-cell-border;
+    border-width: $table-cell-border-width;
+    padding: $table-cell-padding;
+    vertical-align: top;
+
+    // Colors
+    @each $name, $pair in $colors {
+      $color: nth($pair, 1);
+      $color-invert: nth($pair, 2);
+
+      &.is-#{$name} {
+        background-color: $color;
+        border-color: $color;
+        color: $color-invert;
+      }
+    }
+
+    // Modifiers
+    &.is-narrow {
+      white-space: nowrap;
+      width: 1%;
+    }
+
+    &.is-selected {
+      background-color: $table-row-active-background-color;
+      color: $table-row-active-color;
+
+      a,
+      strong {
+        color: currentColor;
+      }
+    }
+  }
+
+  .th {
+    color: $table-cell-heading-color;
+    text-align: left;
+  }
+
+  .tr {
+    &.is-selected {
+      background-color: $table-row-active-background-color;
+      color: $table-row-active-color;
+
+      a,
+      strong {
+        color: currentColor;
+      }
+
+      .td,
+      .th {
+        border-color: transparent;
+        color: currentColor;
+      }
+    }
+  }
+
+  .thead {
+    .td,
+    .th {
+      border-width: $table-head-cell-border-width;
+      color: $table-head-cell-color;
+    }
+  }
+
+  .tfoot {
+    .td,
+    .th {
+      border-width: $table-foot-cell-border-width;
+      color: $table-foot-cell-color;
+    }
+  }
+
+  .tbody {
+    .tr {
+      &:last-child {
+        .td,
+        .th {
+          border-bottom-width: 0;
+        }
+      }
+    }
+  }
+
+  // Modifiers
+  &.is-bordered {
+    .td,
+    .th {
+      border-width: 1px;
+    }
+
+    .tr {
+      &:last-child {
+        .td,
+        .th {
+          border-bottom-width: 1px;
+        }
+      }
+    }
+  }
+
+  &.is-fullwidth {
+    width: 100%;
+  }
+
+  &.is-hoverable {
+    .tbody {
+      .tr:not(.is-selected) {
+        &:hover {
+          background-color: $table-row-hover-background-color;
+        }
+      }
+    }
+
+    &.is-striped {
+      .tbody {
+        .tr:not(.is-selected) {
+          &:hover {
+            background-color: $table-striped-row-even-hover-background-color;
+          }
+        }
+      }
+    }
+  }
+
+  &.is-narrow {
+    .td,
+    .th {
+      padding: 0.25em 0.5em;
+    }
+  }
+
+  &.is-striped {
+    .tbody {
+      .tr:not(.is-selected) {
+        &:nth-child(even) {
+          background-color: $table-striped-row-even-background-color;
+        }
+      }
+    }
+  }
+}
+
 .card-header-icon {
   cursor: default;
 }
+
 .menu {
   padding: 1em;
   width: 260px;
@@ -24,8 +195,26 @@ $modal-content-width: 500px;
 .menu-list a .icon {
   margin-left: 0.5em;
 }
+
 .is-fullheight {
   height: 100vh;
+}
+
+.table .td.is-adding {
+  padding: 0.2em 0.25em;
+}
+.table input {
+  padding: 0.3em 0.5em;
+  box-shadow: none;
+}
+.td.action-buttons-container {
+  position: relative;
+  overflow: visible;
+}
+.action-buttons {
+  position: absolute;
+  top: 0;
+  right: 0.25em;
 }
 
 .pointer {
@@ -36,21 +225,4 @@ $modal-content-width: 500px;
 }
 .mt {
   margin-top: 1.5em;
-}
-.table td {
-  padding: 0;
-  min-width: 200px;
-}
-.table th {
-  padding: 0.375em 0.625em;
-}
-.table .td_padding {
-  padding: 0.375em 0.625em;
-}
-.table input {
-  border-radius: 0;
-  min-width: 200px;
-}
-.td_edit {
-  text-align: right;
 }
