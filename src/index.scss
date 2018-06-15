@@ -232,18 +232,26 @@ $modal-content-width: 500px;
 .td.td-checkbox {
   padding: 0.35rem;
 }
+.th-checkbox,
 .td-checkbox {
+  text-align: center;
   width: 1.625rem;
 }
+.th-date,
 .td-date {
   width: 8rem;
 }
 .th.th-amount {
+  width: 10%;
   text-align: right;
 }
 .td-amount {
   width: 10%;
   text-align: right;
+  
+  input {
+    text-align: right;
+  }
 }
 
 .pointer {

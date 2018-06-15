@@ -63,11 +63,23 @@ export default class GalleonTable extends Component {
 
     return (
       <div className="tr is-selected" key="add">
-        {columns.map(column => (
-          <div key={column.value} className="td is-adding">
-            <input className="input" type="text" ref={node => this[column.value] = node} />
-          </div>
-        ))}
+        {columns.map(column => {
+          const cellClassName = classNames('td', 'is-adding', { [`td-${column.value}`]: true })
+
+          if (column.value === 'checkbox') {
+            return (
+              <div key={column.value} className={cellClassName}>
+                <input type="checkbox" checked readOnly />
+              </div>
+            )
+          }
+
+          return (
+            <div key={column.value} className={cellClassName}>
+              <input className="input" type="text" ref={node => this[column.value] = node} />
+            </div>
+          )
+        })}
       </div>
     )
   }
