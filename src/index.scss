@@ -96,7 +96,7 @@ $modal-content-width: 500px;
     right: -1px;
     top: -1px;
     bottom: -1px;
-    width: auto;
+    width: calc(100% + 2px);
     max-width: none;
     font-size: inherit;
     padding: calc(.35em + 1px) calc(.75em + 1px);

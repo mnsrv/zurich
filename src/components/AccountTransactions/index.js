@@ -24,7 +24,6 @@ export default class Transactions extends Component {
       editedCell: ''
     }
 
-    // todo: add input type
     this.columns = [{
       label: 'Дата',
       value: 'date',
@@ -64,6 +63,8 @@ export default class Transactions extends Component {
     if (!account) {
       return null
     }
+
+    // TODO: delete transaction
 
     return (
       <section className="section">

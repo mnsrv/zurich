@@ -14,11 +14,12 @@ export default class Cell extends Component {
   renderInput = () => {
     const { row, column } = this.props
 
+    // TODO: render min width for input types
     return (
       <div className="td td_editing">
         <div className="td-editingspan">{row[column.value]}</div>
         <input
-          type="text"
+          type={column.type}
           autoFocus
           onBlur={this.blurCell}
           defaultValue={row[column.value]}
@@ -40,14 +41,32 @@ export default class Cell extends Component {
   }
 
   blurCell = () => {
-    const { column, row, updateTransaction } = this.props
+    const { column, editCell, row, updateTransaction } = this.props
+
+    const newValue = this.getNewValueByType(column.type, this[column.value].value)
 
     const transaction = {
       id: row.id,
-      [column.value]: this[column.value].value
+      [column.value]: newValue
     }
-    // todo: update only if diff
-    updateTransaction(transaction)
+    if (row[column.value] !== newValue) {
+      updateTransaction(transaction)
+    } else {
+      editCell('')
+    }
+  }
+
+  getNewValueByType = (type, value) => {
+    switch (type) {
+      case 'text':
+        return value.toString()
+      case 'number':
+        return Number(value)
+      case 'date':
+        return value
+      default:
+        return ''
+    }
   }
 
   clickCell = () => {
