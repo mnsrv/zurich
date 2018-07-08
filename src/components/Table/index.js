@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import classNames from 'classnames'
 
 import Cell from './Cell'
 
@@ -32,7 +33,13 @@ export default class GalleonTable extends Component {
 
     return (
       <div className="tr">
-        {columns.map(column => <div key={column.value} className="th">{column.label}</div>)}
+        {columns.map(column => {
+          const className = classNames('th', {
+            'tar': column.type === 'number'
+          })
+
+          return <div key={column.value} className={className}>{column.label}</div>
+        })}
       </div>
     )
   }

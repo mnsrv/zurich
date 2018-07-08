@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import classNames from 'classnames'
 
 import { formatDateForClient } from '../../helpers/date'
 
@@ -35,8 +36,12 @@ export default class Cell extends Component {
   renderValue = () => {
     const { row, column } = this.props
 
+    const className = classNames('td', {
+      'tar': column.type === 'number'
+    })
+
     return (
-      <div className="td" onClick={this.clickCell}>
+      <div className={className} onClick={this.clickCell}>
         {this.renderValueByType(column.type, row[column.value])}
       </div>
     )
@@ -47,7 +52,7 @@ export default class Cell extends Component {
       case 'text':
         return value
       case 'number':
-        return Number(value)
+        return Number(value).toLocaleString('ru')
       case 'date':
         return formatDateForClient(value)
       default:
