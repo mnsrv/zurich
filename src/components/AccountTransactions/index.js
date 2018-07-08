@@ -81,9 +81,6 @@ export default class Transactions extends Component {
     }
 
     const columns = [{
-      label: '',
-      value: 'checkbox'
-    },{
       label: 'Дата',
       value: 'date'
     }, {

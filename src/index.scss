@@ -1,176 +1,96 @@
 $primary: #0575E6;
 $danger: #CC2936;
-
 $modal-content-width: 500px;
-
 @import "bulma/bulma";
-
 .table {
-  display: table;
+  display: inline-block;
+  border-spacing: 0;
+  border-collapse: collapse;
+  overflow-x: auto;
+  max-width: 100%;
+  text-align: left;
+  vertical-align: top;
+  background: -webkit-linear-gradient(rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.15) 100%) 0 0, -webkit-linear-gradient(rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.15) 100%) 100% 0;
+  background: linear-gradient(rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.15) 100%) 0 0, linear-gradient(rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.15) 100%) 100% 0;
+  background-attachment: scroll, scroll;
+  background-size: 1px 100%, 1px 100%;
+  background-repeat: no-repeat, no-repeat;
+  .td,
+  .th {
+    padding: .35em .75em;
+    vertical-align: top;
+    font-size: .9em;
+    border: 1px solid #f2f2f2;
+    border-left: 0;
+    &:first-child {
+      padding-left: 0;
+      background-image: -webkit-linear-gradient(left, white 50%, rgba(255, 255, 255, 0) 100%);
+      background-image: linear-gradient(to right, white 50%, rgba(255, 255, 255, 0) 100%);
+      background-size: 2px 100%;
+      background-repeat: no-repeat;
+    }
+    &:last-child {
+      border-right: 0;
+      background-image: -webkit-linear-gradient(right, white 50%, rgba(255, 255, 255, 0) 100%);
+      background-image: linear-gradient(to left, white 50%, rgba(255, 255, 255, 0) 100%);
+      background-position: 100% 0;
+      background-size: 2px 100%;
+      background-repeat: no-repeat;
+    }
+    &:only-child {
+      background-image: -webkit-linear-gradient(left, white 50%, rgba(255, 255, 255, 0) 100%), -webkit-linear-gradient(right, white 50%, rgba(255, 255, 255, 0) 100%);
+      background-image: linear-gradient(to right, white 50%, rgba(255, 255, 255, 0) 100%), linear-gradient(to left, white 50%, rgba(255, 255, 255, 0) 100%);
+      background-position: 0 0, 100% 0;
+      background-size: 2px 100%, 2px 100%;
+      background-repeat: no-repeat, no-repeat;
+    }
+  }
 }
+
 .thead {
   display: table-header-group;
   vertical-align: middle;
+  border-top-color: inherit;
+  border-right-color: inherit;
+  border-bottom-color: inherit;
+  border-left-color: inherit;
 }
+
 .tbody {
   display: table-row-group;
   vertical-align: middle;
+  border-top-color: inherit;
+  border-right-color: inherit;
+  border-bottom-color: inherit;
+  border-left-color: inherit;
 }
+
+.tfoot {
+  display: table-footer-group;
+  vertical-align: middle;
+  border-top-color: inherit;
+  border-right-color: inherit;
+  border-bottom-color: inherit;
+  border-left-color: inherit;
+}
+
 .tr {
   display: table-row;
+  vertical-align: inherit;
+  border-top-color: inherit;
+  border-right-color: inherit;
+  border-bottom-color: inherit;
+  border-left-color: inherit;
 }
+
+.td,
 .th {
   display: table-cell;
-  font-weight: bold;
-}
-.td {
-  display: table-cell;
+  vertical-align: inherit;
 }
 
-.table {
-  .td,
-  .th {
-    border: $table-cell-border;
-    border-width: $table-cell-border-width;
-    padding: $table-cell-padding;
-    vertical-align: top;
-
-    // Colors
-    @each $name, $pair in $colors {
-      $color: nth($pair, 1);
-      $color-invert: nth($pair, 2);
-
-      &.is-#{$name} {
-        background-color: $color;
-        border-color: $color;
-        color: $color-invert;
-      }
-    }
-
-    // Modifiers
-    &.is-narrow {
-      white-space: nowrap;
-      width: 1%;
-    }
-
-    &.is-selected {
-      background-color: $table-row-active-background-color;
-      color: $table-row-active-color;
-
-      a,
-      strong {
-        color: currentColor;
-      }
-    }
-  }
-
-  .th {
-    color: $table-cell-heading-color;
-    text-align: left;
-  }
-
-  .tr {
-    &.is-selected {
-      background-color: $table-row-active-background-color;
-      color: $table-row-active-color;
-
-      a,
-      strong {
-        color: currentColor;
-      }
-
-      .td,
-      .th {
-        border-color: transparent;
-        color: currentColor;
-      }
-    }
-  }
-
-  .thead {
-    .td,
-    .th {
-      border-width: $table-head-cell-border-width;
-      color: $table-head-cell-color;
-    }
-  }
-
-  .tfoot {
-    .td,
-    .th {
-      border-width: $table-foot-cell-border-width;
-      color: $table-foot-cell-color;
-    }
-  }
-
-  .tbody {
-    .tr {
-      &:last-child {
-        .td,
-        .th {
-          border-bottom-width: 0;
-        }
-      }
-    }
-  }
-
-  // Modifiers
-  &.is-bordered {
-    .td,
-    .th {
-      border-width: 1px;
-    }
-
-    .tr {
-      &:last-child {
-        .td,
-        .th {
-          border-bottom-width: 1px;
-        }
-      }
-    }
-  }
-
-  &.is-fullwidth {
-    width: 100%;
-  }
-
-  &.is-hoverable {
-    .tbody {
-      .tr:not(.is-selected) {
-        &:hover {
-          background-color: $table-row-hover-background-color;
-        }
-      }
-    }
-
-    &.is-striped {
-      .tbody {
-        .tr:not(.is-selected) {
-          &:hover {
-            background-color: $table-striped-row-even-hover-background-color;
-          }
-        }
-      }
-    }
-  }
-
-  &.is-narrow {
-    .td,
-    .th {
-      padding: 0.25em 0.5em;
-    }
-  }
-
-  &.is-striped {
-    .tbody {
-      .tr:not(.is-selected) {
-        &:nth-child(even) {
-          background-color: $table-striped-row-even-background-color;
-        }
-      }
-    }
-  }
+.th {
+  color: rgb(153, 153, 153);
 }
 
 .card-header-icon {
@@ -181,15 +101,18 @@ $modal-content-width: 500px;
   padding: 1em;
   width: 260px;
 }
+
 .menu_between {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
 }
+
 .menu-list a.is-vertical-center {
   display: flex;
   align-items: center;
 }
+
 .menu-list a .icon {
   margin-left: 0.5em;
 }
@@ -198,68 +121,14 @@ $modal-content-width: 500px;
   height: 100vh;
 }
 
-.table .td.is-adding {
-  padding: 0.2em 0.25em;
-}
-.td {
-  white-space: nowrap;
-  -webkit-font-smoothing: antialiased
-}
-.tr {
-  cursor: pointer;
-
-  &.is-selected {
-    cursor: text;
-  }
-}
-.table input {
-  padding: 0.3em 0.5em;
-  box-shadow: none;
-}
-.td.action-buttons-container {
-  position: relative;
-  overflow: visible;
-}
-.action-buttons {
-  position: absolute;
-  top: 0;
-  right: 0;
-
-  .button {
-    margin: 0 0.25em;
-  }
-}
-.td.td-checkbox {
-  padding: 0.35rem;
-}
-.th-checkbox,
-.td-checkbox {
-  text-align: center;
-  width: 1.625rem;
-}
-.th-date,
-.td-date {
-  width: 8rem;
-}
-.th.th-amount {
-  width: 10%;
-  text-align: right;
-}
-.td-amount {
-  width: 10%;
-  text-align: right;
-  
-  input {
-    text-align: right;
-  }
-}
-
 .pointer {
   cursor: pointer;
 }
+
 .mr {
   margin-right: 0.5em;
 }
+
 .mt {
   margin-top: 1.5em;
 }

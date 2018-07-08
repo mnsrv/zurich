@@ -6,7 +6,7 @@ export default class GalleonTable extends Component {
     const { data } = this.props
 
     return (
-      <div className="table is-fullwidth">
+      <div className="table">
         <div className="thead">
           {this.renderHeadRow()}
         </div>
@@ -44,14 +44,6 @@ export default class GalleonTable extends Component {
         {columns.map(column => {
           const cellClassName = classNames('td', { [`td-${column.value}`]: true })
 
-          if (column.value === 'checkbox') {
-            return (
-              <div key={column.value} className={cellClassName}>
-                <input type="checkbox" checked={row.id === selectedId} onChange={() => this.toggleSelection(row.id)} />
-              </div>
-            )
-          }
-
           return <div key={column.value} className={cellClassName}>{row[column.value]}</div>
         })}
       </div>
@@ -65,14 +57,6 @@ export default class GalleonTable extends Component {
       <div className="tr is-selected" key="add">
         {columns.map(column => {
           const cellClassName = classNames('td', 'is-adding', { [`td-${column.value}`]: true })
-
-          if (column.value === 'checkbox') {
-            return (
-              <div key={column.value} className={cellClassName}>
-                <input type="checkbox" checked readOnly />
-              </div>
-            )
-          }
 
           return (
             <div key={column.value} className={cellClassName}>
