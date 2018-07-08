@@ -17,6 +17,10 @@ export default class Cell extends Component {
   renderInput = () => {
     const { row, column } = this.props
 
+    const className = classNames('input', {
+      'tar': column.type === 'number'
+    })
+
     // TODO: render min width for input types
     return (
       <div className="td td_editing">
@@ -26,7 +30,7 @@ export default class Cell extends Component {
           autoFocus
           onBlur={this.blurCell}
           defaultValue={row[column.value]}
-          className="input"
+          className={className}
           ref={node => this[column.value] = node}
         />
       </div>
