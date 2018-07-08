@@ -42,7 +42,7 @@ export default class NewAccount extends Component {
     return (
       <form className="modal-card" onSubmit={this.onSubmit}>
         <header className="modal-card-head">
-          <p className="modal-card-title">Новый счет</p>
+          <p className="modal-card-title">Новый счёт</p>
           <button className="delete" aria-label="close" onClick={close} />
         </header>
         <section className="modal-card-body">
@@ -69,7 +69,7 @@ export default class NewAccount extends Component {
         </section>
         <footer className="modal-card-foot buttons is-right">
           <button className="button" onClick={close}>Отмена</button>
-          <button className={buttonClasses}>Создать счет</button>
+          <button className={buttonClasses}>Создать счёт</button>
         </footer>
       </form>
     )

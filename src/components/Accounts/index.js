@@ -33,7 +33,7 @@ export default class Accounts extends Component {
           return <li key={acc.id}><NavLink to={`/${budgetId}/accounts/${acc.id}`} activeClassName="is-active">{acc.name}</NavLink></li>
         })}
       </ul>,
-      <button key="button" className="button is-small mt" onClick={this.openCreateAccountModal}>Создать счет</button>
+      <button key="button" className="button is-small mt" onClick={this.openCreateAccountModal}>Создать счёт</button>
     ]
   }
 
