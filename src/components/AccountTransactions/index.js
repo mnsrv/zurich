@@ -5,6 +5,7 @@ import stores from '../../stores'
 
 import Table from '../Table'
 import Spinner from '../Spinner'
+import { formatDate } from '../../helpers/date'
 
 @inject('endpoint')
 @observer
@@ -22,6 +23,21 @@ export default class Transactions extends Component {
       isAdding: false,
       editedCell: ''
     }
+
+    // todo: add input type
+    this.columns = [{
+      label: 'Дата',
+      value: 'date',
+      type: 'date'
+    }, {
+      label: 'Заметка',
+      value: 'memo',
+      type: 'text'
+    }, {
+      label: 'Сумма',
+      value: 'amount',
+      type: 'number'
+    }]
   }
 
   componentDidMount() {
@@ -91,22 +107,10 @@ export default class Transactions extends Component {
       return <Spinner />
     }
 
-    // todo: add input type
-    const columns = [{
-      label: 'Дата',
-      value: 'date'
-    }, {
-      label: 'Заметка',
-      value: 'memo'
-    }, {
-      label: 'Сумма',
-      value: 'amount'
-    }]
-
     return (
       <Table
         data={collection}
-        columns={columns}
+        columns={this.columns}
         isAdding={this.state.isAdding}
         createTransaction={this.createTransaction}
         updateTransaction={this.updateTransaction}
@@ -116,8 +120,25 @@ export default class Transactions extends Component {
     )
   }
 
+  getDefaultValueByType = (type) => {
+    switch (type) {
+      case 'text':
+        return ''
+      case 'number':
+        return 0
+      case 'date':
+        return formatDate()
+      default:
+        return ''
+    }
+  }
+
   startAdding = () => {
-    this.setState({ isAdding: true })
+    const emptyTransaction = this.columns.reduce((result, item) => {
+      result[item.value] = this.getDefaultValueByType(item.type)
+      return result
+    }, {})
+    this.createTransaction(emptyTransaction)
   }
 
   editCell = (id) => {
