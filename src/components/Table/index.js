@@ -1,7 +1,16 @@
 import React, { Component } from 'react'
-import classNames from 'classnames'
+
+import Cell from './Cell'
 
 export default class GalleonTable extends Component {
+  componentDidMount() {
+    document.addEventListener("keydown", this.escFunction, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.escFunction, false);
+  }
+
   render() {
     const { data } = this.props
 
@@ -11,7 +20,7 @@ export default class GalleonTable extends Component {
           {this.renderHeadRow()}
         </div>
         <div className="tbody">
-          {this.renderAddingRows()}
+          {this.renderAddRow()}
           {data.map(this.renderRow)}
         </div>
       </div>
@@ -23,43 +32,42 @@ export default class GalleonTable extends Component {
 
     return (
       <div className="tr">
-        {columns.map(column => {
-          const cellClassName = classNames('th', { [`th-${column.value}`]: true })
-
-          return <div key={column.value} className={cellClassName}>{column.label}</div>
-        })}
+        {columns.map(column => <div key={column.value} className="th">{column.label}</div>)}
       </div>
     )
   }
 
   renderRow = (row) => {
-    const { columns, selectedId, selectRow } = this.props
-
-    const rowClassName = classNames('tr', {
-      'is-selected': row.id === selectedId
-    })
+    const { columns, editCell, editedCell, updateTransaction } = this.props
 
     return (
-      <div className={rowClassName} key={row.id} onClick={() => selectRow(row.id)}>
-        {columns.map(column => {
-          const cellClassName = classNames('td', { [`td-${column.value}`]: true })
-
-          return <div key={column.value} className={cellClassName}>{row[column.value]}</div>
-        })}
+      <div className="tr" key={row.id}>
+        {columns.map(column => (
+          <Cell
+            key={column.value}
+            row={row}
+            column={column}
+            editCell={editCell}
+            editedCell={editedCell}
+            updateTransaction={updateTransaction}
+          />
+        ))}
       </div>
     )
   }
 
   renderAddRow = () => {
-    const { columns } = this.props
+    const { columns, isAdding } = this.props
+
+    if (!isAdding) {
+      return null
+    }
 
     return (
-      <div className="tr is-selected" key="add">
+      <div className="tr">
         {columns.map(column => {
-          const cellClassName = classNames('td', 'is-adding', { [`td-${column.value}`]: true })
-
           return (
-            <div key={column.value} className={cellClassName}>
+            <div key={column.value} className="td">
               <input className="input" type="text" ref={node => this[column.value] = node} />
             </div>
           )
@@ -68,59 +76,8 @@ export default class GalleonTable extends Component {
     )
   }
 
-  renderAddActionsRow = () => {
-    const { columns } = this.props
-
-    return (
-      <div key="add-actions" className="tr is-selected">
-        {columns.map((column, index) => {
-          const isLast = index === columns.length - 1
-          const className = classNames('td', {
-            'action-buttons-container': isLast
-          })
-
-          return (
-            <div key={column.value} className={className}>
-              {isLast
-                ? (
-                  <div className="action-buttons">
-                    <button className="button" onClick={this.cancel}>Отмена</button>
-                    <button className="button is-primary is-inverted is-outlined" onClick={this.save}>Сохранить</button>
-                  </div>
-                )
-                : '   '}
-            </div>
-          )
-        })}
-      </div>
-    )
-  }
-
-  renderAddingRows = () => {
-    const { isAdding } = this.props
-
-    if (!isAdding) {
-      return null
-    }
-
-    return [
-      this.renderAddRow(),
-      this.renderAddActionsRow()
-    ]
-  }
-
-  toggleSelection = (id) => {
-    const { selectedId, cancelSelect, selectRow } = this.props
-
-    if (id === selectedId) {
-      cancelSelect()
-    } else {
-      selectRow(id)
-    }
-  }
-
   save = () => {
-    const { columns, cancelAdding, createTransaction } = this.props
+    const { columns, createTransaction } = this.props
 
     const transaction = columns.reduce((result, item, index, array) => {
       result[item.value] = this[item.value].value
@@ -128,12 +85,13 @@ export default class GalleonTable extends Component {
     }, {})
 
     createTransaction(transaction)
-    cancelAdding()
   }
 
-  cancel = () => {
-    const { cancelAdding } = this.props
+  escFunction = (event) => {
+    const { editCell } = this.props
 
-    cancelAdding()
+    if (event.keyCode === 27) {
+      editCell('')
+    }
   }
 }

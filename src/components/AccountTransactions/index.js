@@ -20,8 +20,7 @@ export default class Transactions extends Component {
 
     this.state = {
       isAdding: false,
-      editedId: '',
-      selectedId: ''
+      editedCell: ''
     }
   }
 
@@ -54,7 +53,7 @@ export default class Transactions extends Component {
       <section className="section">
         <h1 className="title">{account.name}</h1>
         <div className="field is-grouped">
-          <button className="button" onClick={this.startAdding}>Добавить</button>
+          <button className="button is-small" onClick={this.startAdding}>Добавить</button>
         </div>
         {this.renderTable()}
       </section>
@@ -72,6 +71,18 @@ export default class Transactions extends Component {
     })
   }
 
+  updateTransaction = (transaction) => {
+    const { match } = this.props
+    const { accountId } = match.params
+
+    this.transactions.update({ accounts: accountId, id: transaction.id }, { transaction }, {
+      200: (response) => {
+        this.transactions.modifyInCollection(response.data.transaction)
+        this.editCell('')
+      }
+    })
+  }
+
   renderTable = () => {
     const { collection } = this.transactions
     const { isLoading } = this.accounts
@@ -80,6 +91,7 @@ export default class Transactions extends Component {
       return <Spinner />
     }
 
+    // todo: add input type
     const columns = [{
       label: 'Дата',
       value: 'date'
@@ -96,36 +108,19 @@ export default class Transactions extends Component {
         data={collection}
         columns={columns}
         isAdding={this.state.isAdding}
-        cancelAdding={this.cancelAdding}
         createTransaction={this.createTransaction}
-        selectedId={this.state.selectedId}
-        selectRow={this.selectRow}
-        cancelSelect={this.cancelSelect}
+        updateTransaction={this.updateTransaction}
+        editCell={this.editCell}
+        editedCell={this.state.editedCell}
       />
     )
   }
 
   startAdding = () => {
-    this.setState({ isAdding: true, selectedId: '' })
-  }
-
-  cancelAdding = () => {
-    this.setState({ isAdding: false })
-  }
-
-  selectRow = (id) => {
-    this.setState({ selectedId: id })
-  }
-
-  cancelSelect = () => {
-    this.setState({ selectedId: '' })
+    this.setState({ isAdding: true })
   }
 
   editCell = (id) => {
-    this.setState({ editedId: id })
-  }
-
-  cancelEdit = () => {
-    this.setState({ editedId: '' })
+    this.setState({ editedCell: id })
   }
 }
