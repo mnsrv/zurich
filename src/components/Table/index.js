@@ -21,7 +21,7 @@ export default class GalleonTable extends Component {
         </div>
         <div className="tbody">
           {this.renderAddRow()}
-          {data.map(this.renderRow)}
+          {data.sort((a, b) => new Date(b.date) - new Date(a.date)).map(this.renderRow)}
         </div>
       </div>
     )
