@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import { formatDateForClient } from '../../helpers/date'
+
 export default class Cell extends Component {
   render() {
     const { column, editedCell, row } = this.props
@@ -35,9 +37,22 @@ export default class Cell extends Component {
 
     return (
       <div className="td" onClick={this.clickCell}>
-        {row[column.value]}
+        {this.renderValueByType(column.type, row[column.value])}
       </div>
     )
+  }
+
+  renderValueByType = (type, value) => {
+    switch (type) {
+      case 'text':
+        return value
+      case 'number':
+        return Number(value)
+      case 'date':
+        return formatDateForClient(value)
+      default:
+        return ''
+    }
   }
 
   blurCell = () => {

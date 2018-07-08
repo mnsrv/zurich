@@ -5,7 +5,7 @@ import stores from '../../stores'
 
 import Table from '../Table'
 import Spinner from '../Spinner'
-import { formatDate } from '../../helpers/date'
+import { formatDateForServer } from '../../helpers/date'
 
 @inject('endpoint')
 @observer
@@ -128,7 +128,7 @@ export default class Transactions extends Component {
       case 'number':
         return 0
       case 'date':
-        return formatDate()
+        return formatDateForServer()
       default:
         return ''
     }
