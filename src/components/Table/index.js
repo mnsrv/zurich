@@ -3,7 +3,14 @@ import classNames from 'classnames'
 
 import Cell from './Cell'
 
-export default class GalleonTable extends Component {
+export default class Table extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      editedCell: ''
+    }
+  }
   componentDidMount() {
     document.addEventListener("keydown", this.escFunction, false);
   }
@@ -21,7 +28,6 @@ export default class GalleonTable extends Component {
           {this.renderHeadRow()}
         </div>
         <div className="tbody">
-          {this.renderAddRow()}
           {data.sort((a, b) => new Date(b.date) - new Date(a.date)).map(this.renderRow)}
         </div>
       </div>
@@ -45,7 +51,8 @@ export default class GalleonTable extends Component {
   }
 
   renderRow = (row) => {
-    const { columns, editCell, editedCell, updateTransaction } = this.props
+    const { columns, updateTransaction } = this.props
+    const { editedCell } = this.state
 
     return (
       <div className="tr" key={row.id}>
@@ -54,7 +61,7 @@ export default class GalleonTable extends Component {
             key={column.value}
             row={row}
             column={column}
-            editCell={editCell}
+            editCell={this.editCell}
             editedCell={editedCell}
             updateTransaction={updateTransaction}
           />
@@ -63,42 +70,13 @@ export default class GalleonTable extends Component {
     )
   }
 
-  renderAddRow = () => {
-    const { columns, isAdding } = this.props
-
-    if (!isAdding) {
-      return null
-    }
-
-    return (
-      <div className="tr">
-        {columns.map(column => {
-          return (
-            <div key={column.value} className="td">
-              <input className="input" type="text" ref={node => this[column.value] = node} />
-            </div>
-          )
-        })}
-      </div>
-    )
-  }
-
-  save = () => {
-    const { columns, createTransaction } = this.props
-
-    const transaction = columns.reduce((result, item, index, array) => {
-      result[item.value] = this[item.value].value
-      return result
-    }, {})
-
-    createTransaction(transaction)
+  editCell = (id) => {
+    this.setState({ editedCell: id })
   }
 
   escFunction = (event) => {
-    const { editCell } = this.props
-
     if (event.keyCode === 27) {
-      editCell('')
+      this.editCell('')
     }
   }
 }

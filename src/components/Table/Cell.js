@@ -67,10 +67,11 @@ export default class Cell extends Component {
 
     const transaction = {
       id: row.id,
+      account_id: row.account_id,
       [column.value]: newValue
     }
     if (row[column.value] !== newValue) {
-      updateTransaction(transaction)
+      updateTransaction(transaction, () => { editCell('') })
     } else {
       editCell('')
     }

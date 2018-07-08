@@ -19,11 +19,6 @@ export default class Transactions extends Component {
     this.accounts = new stores.Account(endpoint, `v1/${budgetId}`)
     this.transactions = new stores.Transaction(endpoint, `v1/${budgetId}`)
 
-    this.state = {
-      isAdding: false,
-      editedCell: ''
-    }
-
     this.columns = [{
       label: 'Дата',
       value: 'date',
@@ -70,34 +65,11 @@ export default class Transactions extends Component {
       <section className="section">
         <h1 className="title">{account.name}</h1>
         <div className="field is-grouped">
-          <button className="button is-small" onClick={this.startAdding}>Добавить</button>
+          <button className="button is-small" onClick={this.createEmptyTransaction}>Добавить</button>
         </div>
         {this.renderTable()}
       </section>
     )
-  }
-
-  createTransaction = (transaction) => {
-    const { match } = this.props
-    const { accountId } = match.params
-
-    this.transactions.create({ accounts: accountId }, { transaction }, {
-      201: (response) => {
-        this.transactions.appendToCollection(response.data.transaction)
-      }
-    })
-  }
-
-  updateTransaction = (transaction) => {
-    const { match } = this.props
-    const { accountId } = match.params
-
-    this.transactions.update({ accounts: accountId, id: transaction.id }, { transaction }, {
-      200: (response) => {
-        this.transactions.modifyInCollection(response.data.transaction)
-        this.editCell('')
-      }
-    })
   }
 
   renderTable = () => {
@@ -112,13 +84,32 @@ export default class Transactions extends Component {
       <Table
         data={collection}
         columns={this.columns}
-        isAdding={this.state.isAdding}
-        createTransaction={this.createTransaction}
         updateTransaction={this.updateTransaction}
-        editCell={this.editCell}
-        editedCell={this.state.editedCell}
       />
     )
+  }
+
+  createTransaction = (transaction) => {
+    const { match } = this.props
+    const { accountId } = match.params
+
+    this.transactions.create({ accounts: accountId }, { transaction }, {
+      201: (response) => {
+        this.transactions.appendToCollection(response.data.transaction)
+      }
+    })
+  }
+
+  updateTransaction = (transaction, callback) => {
+    const { match } = this.props
+    const { accountId } = match.params
+
+    this.transactions.update({ accounts: accountId, id: transaction.id }, { transaction }, {
+      200: (response) => {
+        this.transactions.modifyInCollection(response.data.transaction)
+        callback()
+      }
+    })
   }
 
   getDefaultValueByType = (type) => {
@@ -134,15 +125,11 @@ export default class Transactions extends Component {
     }
   }
 
-  startAdding = () => {
+  createEmptyTransaction = () => {
     const emptyTransaction = this.columns.reduce((result, item) => {
       result[item.value] = this.getDefaultValueByType(item.type)
       return result
     }, {})
     this.createTransaction(emptyTransaction)
-  }
-
-  editCell = (id) => {
-    this.setState({ editedCell: id })
   }
 }
