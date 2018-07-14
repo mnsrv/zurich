@@ -32,15 +32,15 @@ export default class Cell extends Component {
     }
 
     const className = classNames('input', {
+      'td_date': column.type === 'date',
       'tar': column.type === 'number'
     })
 
-    // TODO: render min width for input types
     return (
       <div className="td td_editing">
-        <div className="td-editingspan">{row[column.value]}</div>
+        <div className="td-editingspan">{this.renderValueByType(column, row[column.value])}</div>
         <input
-          type={column.type}
+          type={this.getInputType(column.type)}
           autoFocus
           onBlur={this.blurCell}
           defaultValue={row[column.value]}
@@ -51,10 +51,18 @@ export default class Cell extends Component {
     )
   }
 
+  getInputType = (type) => {
+    if (type === 'number') {
+      return 'string'
+    }
+    return type
+  }
+
   renderValue = () => {
     const { row, column } = this.props
 
     const className = classNames('td', {
+      'td_date': column.type === 'date',
       'tar': column.type === 'number'
     })
 
