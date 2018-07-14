@@ -51,7 +51,7 @@ export default class Table extends Component {
   }
 
   renderRow = (row) => {
-    const { columns, updateTransaction } = this.props
+    const { columns, select, updateTransaction } = this.props
     const { editedCell } = this.state
 
     return (
@@ -61,6 +61,7 @@ export default class Table extends Component {
             key={column.value}
             row={row}
             column={column}
+            select={select}
             editCell={this.editCell}
             editedCell={editedCell}
             updateTransaction={updateTransaction}

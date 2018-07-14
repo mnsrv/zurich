@@ -14,10 +14,9 @@ export default class Transactions extends Component {
     const { endpoint, match } = props
     const { budgetId } = match.params
 
+    this.accounts = new stores.Account(endpoint, `v1/${budgetId}`)
     this.transactions = new stores.Transaction(endpoint, `v1/${budgetId}`)
 
-    // TODO: select accounts
-    // TODO: render account name instead of id
     this.columns = [{
       label: 'Дата',
       value: 'date',
@@ -25,7 +24,7 @@ export default class Transactions extends Component {
     }, {
       label: 'Счёт',
       value: 'account_id',
-      type: 'text'
+      type: 'select'
     }, {
       label: 'Заметка',
       value: 'memo',
@@ -38,6 +37,7 @@ export default class Transactions extends Component {
   }
 
   componentDidMount() {
+    this.accounts.findAll()
     this.transactions.findAll()
   }
 
@@ -51,19 +51,29 @@ export default class Transactions extends Component {
   }
 
   renderTable = () => {
+    const { collection: accountsCollection } = this.accounts
     const { collection } = this.transactions
+    const select = {
+      account_id: accountsCollection.map(this.formatAccountId)
+    }
 
     return (
       <Table
         data={collection}
         columns={this.columns}
+        select={select}
         updateTransaction={this.updateTransaction}
       />
     )
   }
 
-  updateTransaction = (transaction, callback) => {
-    this.transactions.update({ accounts: transaction.account_id, id: transaction.id }, { transaction }, {
+  formatAccountId = (item) => ({
+    key: item.id,
+    value: item.name
+  })
+
+  updateTransaction = (params, transaction, callback) => {
+    this.transactions.update({ accounts: params.account_id, id: params.id }, { transaction }, {
       200: (response) => {
         this.transactions.modifyInCollection(response.data.transaction)
         callback()

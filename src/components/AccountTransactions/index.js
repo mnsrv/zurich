@@ -100,11 +100,11 @@ export default class Transactions extends Component {
     })
   }
 
-  updateTransaction = (transaction, callback) => {
+  updateTransaction = (params, transaction, callback) => {
     const { match } = this.props
     const { accountId } = match.params
 
-    this.transactions.update({ accounts: accountId, id: transaction.id }, { transaction }, {
+    this.transactions.update({ accounts: accountId, id: params.id }, { transaction }, {
       200: (response) => {
         this.transactions.modifyInCollection(response.data.transaction)
         callback()

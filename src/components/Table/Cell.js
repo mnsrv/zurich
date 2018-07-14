@@ -15,7 +15,21 @@ export default class Cell extends Component {
   }
 
   renderInput = () => {
-    const { row, column } = this.props
+    const { column, row, select } = this.props
+
+    if (column.type === 'select') {
+      return (
+        <div className="td">
+          <select
+            defaultValue={row[column.value]}
+            onChange={this.blurCell}
+            ref={node => this[column.value] = node}
+          >
+            {select[column.value].map(item => <option key={item.key} value={item.key}>{item.value}</option>)}
+          </select>
+        </div>
+      )
+    }
 
     const className = classNames('input', {
       'tar': column.type === 'number'
@@ -46,22 +60,35 @@ export default class Cell extends Component {
 
     return (
       <div className={className} onClick={this.clickCell}>
-        {this.renderValueByType(column.type, row[column.value])}
+        {this.renderValueByType(column, row[column.value])}
       </div>
     )
   }
 
-  renderValueByType = (type, value) => {
-    switch (type) {
+  renderValueByType = (column, value) => {
+    switch (column.type) {
       case 'text':
         return value
       case 'number':
         return Number(value).toLocaleString('ru')
       case 'date':
         return formatDateForClient(value)
+      case 'select':
+        return this.getValueFromSelect(column.value, value)
       default:
         return ''
     }
+  }
+
+  getValueFromSelect = (columnValue, value) => {
+    const { select } = this.props
+
+    if (select[columnValue].length > 0) {
+      const selectedOption = select[columnValue].find(item => item.key === value)
+      return selectedOption.value
+    }
+
+    return ''
   }
 
   blurCell = () => {
@@ -69,13 +96,15 @@ export default class Cell extends Component {
 
     const newValue = this.getNewValueByType(column.type, this[column.value].value)
 
-    const transaction = {
+    const params = {
       id: row.id,
       account_id: row.account_id,
+    }
+    const transaction = {
       [column.value]: newValue
     }
     if (row[column.value] !== newValue) {
-      updateTransaction(transaction, () => { editCell('') })
+      updateTransaction(params, transaction, () => { editCell('') })
     } else {
       editCell('')
     }
@@ -89,6 +118,8 @@ export default class Cell extends Component {
         return Number(value)
       case 'date':
         return value
+      case 'select':
+        return Number(value)
       default:
         return ''
     }
