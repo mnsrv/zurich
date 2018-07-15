@@ -46,12 +46,19 @@ $modal-content-width: 500px;
 }
 
 .tr {
+  position: relative;
   display: table-row;
   vertical-align: inherit;
   border-top-color: inherit;
   border-right-color: inherit;
   border-bottom-color: inherit;
   border-left-color: inherit;
+  &:hover {
+    .tr_delete {
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
 }
 
 .td,
@@ -116,6 +123,23 @@ $modal-content-width: 500px;
 
 .th {
   color: rgb(153, 153, 153);
+}
+
+.tr_delete {
+  position: absolute;
+  transform: translateX(-100%) translateY(1px);
+  padding: .35em .75em;
+  font-size: .9em;
+  border: none;
+  height: auto;
+  color: #f2f2f2;
+  opacity: 0;
+  transition: 300ms ease;
+  pointer-events: none;
+  &:hover {
+    opacity: 1;
+    pointer-events: all;
+  }
 }
 
 .card-header-icon {

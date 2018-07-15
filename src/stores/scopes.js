@@ -28,7 +28,7 @@ const writable = {
   delete(parameters) {
     this.setIsLoading(true)
     this.call({ parameters, type: 'delete' }, {
-      200: (response) => { this.removeFromCollection(response.body) }
+      200: (response) => { this.removeFromCollection(response.data.transaction) }
     })
   }
 }

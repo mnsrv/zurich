@@ -39,6 +39,7 @@ export default class Table extends Component {
 
     return (
       <div className="tr">
+        <div />
         {columns.map(column => {
           const className = classNames('th', {
             'tar': column.type === 'number'
@@ -56,6 +57,11 @@ export default class Table extends Component {
 
     return (
       <div className="tr" key={row.id}>
+        <button className="button tr_delete" onClick={this.deleteRow(row)}>
+          <span className="icon is-small">
+            <i className="fas fa-times" />
+          </span>
+        </button>
         {columns.map(column => (
           <Cell
             key={column.value}
@@ -69,6 +75,15 @@ export default class Table extends Component {
         ))}
       </div>
     )
+  }
+
+  deleteRow = (row) => () => {
+    const { deleteTransaction } = this.props
+
+    const confirmed = window.confirm(`Удалить транзакцию #${row.id}`);
+    if (confirmed) {
+      deleteTransaction({ account_id: row.account_id, id: row.id })
+    }
   }
 
   editCell = (id) => {

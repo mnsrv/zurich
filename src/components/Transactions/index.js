@@ -63,6 +63,7 @@ export default class Transactions extends Component {
         columns={this.columns}
         select={select}
         updateTransaction={this.updateTransaction}
+        deleteTransaction={this.deleteTransaction}
       />
     )
   }
@@ -79,5 +80,9 @@ export default class Transactions extends Component {
         callback()
       }
     })
+  }
+
+  deleteTransaction = (params) => {
+    this.transactions.delete({ accounts: params.account_id, id: params.id })
   }
 }

@@ -59,7 +59,8 @@ export default class Transactions extends Component {
       return null
     }
 
-    // TODO: delete transaction
+    // TODO: tab
+    // TODO: format zero in number input
 
     return (
       <section className="section">
@@ -85,6 +86,7 @@ export default class Transactions extends Component {
         data={collection}
         columns={this.columns}
         updateTransaction={this.updateTransaction}
+        deleteTransaction={this.deleteTransaction}
       />
     )
   }
@@ -110,6 +112,14 @@ export default class Transactions extends Component {
         callback()
       }
     })
+  }
+
+  deleteTransaction = (params) => {
+    const { match } = this.props
+    const { accountId } = match.params
+
+    console.log(params)
+    this.transactions.delete({ accounts: accountId, id: params.id })
   }
 
   getDefaultValueByType = (type) => {
