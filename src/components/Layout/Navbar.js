@@ -28,6 +28,7 @@ export default class Navbar extends Component {
         <div>
           <p className="menu-label">{budget.name}</p>
           <ul className="menu-list">
+            <li><NavLink exact to={`/${budgetId}`} activeClassName="is-active" >Бюджет</NavLink></li>
             <li><NavLink exact to={`/${budgetId}/accounts`} activeClassName="is-active">Все счета</NavLink></li>
           </ul>
           <Accounts match={match} />
